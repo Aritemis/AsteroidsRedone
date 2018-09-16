@@ -19,6 +19,8 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Font;
+import javax.swing.JLabel;
 
 public class AsteroidsMenu extends JPanel implements Animation
 {
@@ -34,6 +36,11 @@ public class AsteroidsMenu extends JPanel implements Animation
 	{
 		this.base = base;
 		newGameButton = new JButton("Start New Game");
+		newGameButton.setBorderPainted(false);
+		newGameButton.setFocusPainted(false);
+		newGameButton.setFont(new Font("Monospaced", Font.BOLD, 30));
+		newGameButton.setForeground(Color.BLUE);
+		newGameButton.setContentAreaFilled(false);
 		stars = base.createStars(200, 5);
 		starRotation = 0;
 		
@@ -49,16 +56,25 @@ public class AsteroidsMenu extends JPanel implements Animation
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 1.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
+		
+		JLabel lblTitle = new JLabel("ASTEROIDS");
+		lblTitle.setForeground(Color.CYAN);
+		lblTitle.setFont(new Font("Arial", Font.BOLD, 80));
+		GridBagConstraints gbc_lblTitle = new GridBagConstraints();
+		gbc_lblTitle.insets = new Insets(0, 0, 5, 5);
+		gbc_lblTitle.gridx = 1;
+		gbc_lblTitle.gridy = 1;
+		add(lblTitle, gbc_lblTitle);
 		
 		GridBagConstraints gbc_newGameButton = new GridBagConstraints();
 		gbc_newGameButton.fill = GridBagConstraints.HORIZONTAL;
 		gbc_newGameButton.insets = new Insets(0, 0, 5, 5);
 		gbc_newGameButton.gridx = 1;
-		gbc_newGameButton.gridy = 2;
+		gbc_newGameButton.gridy = 3;
 		add(newGameButton, gbc_newGameButton);
 	}
 	

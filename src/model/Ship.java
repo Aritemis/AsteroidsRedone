@@ -18,20 +18,20 @@ import control.AsteroidsControl;
 
 public class Ship extends Polygon implements KeyListener
 {
-	
-	static boolean forward;
-	static boolean backward;
-	static boolean turningRight;
-	static boolean turningLeft;
+	public static boolean forward;
+	public static boolean backward;
+	public static boolean turningRight;
+	public static boolean turningLeft;
 	private boolean shoot;
 	private boolean mustRelease;
 	private ArrayList<Bullet> shots;
 	@SuppressWarnings("unused")
 	private Point front;
+	private static Point[] shipShape = { new Point(0, 0), new Point(0, 20), new Point(30, 10) };
 
-	public Ship(Point[] inShape, Point inPosition, double inRotation)
+	public Ship(Point inPosition, double inRotation)
 	{
-		super(inShape, inPosition, inRotation);
+		super(shipShape, inPosition, inRotation);
 		forward = false;
 		backward = false;
 		turningRight = false;

@@ -38,7 +38,7 @@ public class AsteroidsFrame extends JFrame
 				break;
 			case GAME:
 				panel.removeAll();
-				panel = new GamePanel(base);
+				panel = new AsteroidsGame(base);
 				break;
 			default:
 				System.out.println("Something went wrong when changing views.");

@@ -3,9 +3,8 @@
  */
 
 package modelabstracts;
-import java.awt.Component;
 
-public abstract class Circle extends Component
+public abstract class Circle
 {
 	protected Point center;
 	protected int radius;

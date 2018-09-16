@@ -28,12 +28,14 @@ public class AsteroidsMenu extends JPanel implements Animation
 	private Star[] stars;
 	private Timer repaintTimer;
 	private ActionListener repainter;
+	private double starRotation;
 	
 	public AsteroidsMenu(AsteroidsControl base)
 	{
 		this.base = base;
 		newGameButton = new JButton("Start New Game");
 		stars = base.createStars(200, 5);
+		starRotation = 0;
 		
 		setUpLayout();
 		setUpListeners();
@@ -89,7 +91,9 @@ public class AsteroidsMenu extends JPanel implements Animation
 	{
 		for(Star star : stars)
 		{
-			star.paint(g, 45);
+			star.paint(g, starRotation);
+			starRotation += .005;
+			starRotation %= 360;
 		}
 	}
 

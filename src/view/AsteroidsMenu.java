@@ -26,8 +26,8 @@ public class AsteroidsMenu extends JPanel implements Animation
 	private AsteroidsControl base;
 	private JButton newGameButton;
 	private Star[] stars;
-	private Timer starTimer;
-	private ActionListener starMover;
+	private Timer repaintTimer;
+	private ActionListener repainter;
 	
 	public AsteroidsMenu(AsteroidsControl base)
 	{
@@ -74,37 +74,36 @@ public class AsteroidsMenu extends JPanel implements Animation
 	
 	public void setUpTimers()
 	{
-		starMover = new ActionListener()
+		repainter = new ActionListener()
 		{
 			public void actionPerformed(ActionEvent event)
 			{
-				for(Star star : stars)
-				{
-					star.move(45);
-				}
 				repaint();
 			}
 		};
-		starTimer = new Timer(20, starMover);
-		starTimer.setRepeats(true);
+		repaintTimer = new Timer(20, repainter);
+		repaintTimer.setRepeats(true);
 	}
 	
 	public void refreshStars(Graphics g)
 	{
-
+		for(Star star : stars)
+		{
+			star.paint(g, 45);
+		}
 	}
 
 	@Override
 	public void startTimers()
 	{
-		starTimer.start();
+		repaintTimer.start();
 		
 	}
 
 	@Override
 	public void stopTimers()
 	{
-		starTimer.stop();
+		repaintTimer.stop();
 		
 	}
 	
@@ -114,10 +113,7 @@ public class AsteroidsMenu extends JPanel implements Animation
 		//g.drawImage(backgroundImg,0,0,this);
 
 		super.paint(g);
-		for(Star star : stars)
-		{
-			star.paint(g);
-		}
+		refreshStars(g);
 	}
 	
 }

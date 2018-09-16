@@ -20,10 +20,10 @@ public class Star extends Circle
 		super(center, radius);
 	}
 
-	public void paint(Graphics brush) 
+	public void paint(Graphics brush, double rotation) 
 	{
 		Graphics2D g2d = (Graphics2D) brush;
-		//move(rotation);
+		move(rotation);
 		g2d.setColor(Color.white);
 		g2d.fillOval((int) center.x, (int) center.y, radius, radius);
 	}

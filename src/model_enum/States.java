@@ -2,7 +2,7 @@
  *	@author Ariana Fairbanks
  */
 
-package model;
+package model_enum;
 
 public enum States
 {

@@ -7,7 +7,7 @@ package view;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import control.AsteroidsControl;
-import model.States;
+import model_enum.States;
 import view_games.AsteroidsArcade;
 import view_menus.AsteroidsMenu;
 

@@ -4,12 +4,15 @@
 
 package control;
 
+import java.util.concurrent.ThreadLocalRandom;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import model.HighScore;
-import model.States;
 import model_abstracts.Point;
+import model_enum.AsteroidType;
+import model_enum.StarType;
+import model_enum.States;
 import model_game.Asteroid;
 import model_game.Star;
 import view.AsteroidsFrame;
@@ -45,37 +48,27 @@ public class AsteroidsControl
 		frame.changeViewState();
 	}
 	
-	public Star[] createStars(int numberOfStars, int maxRadius) 
+	public ArrayList<Star> createStars(ArrayList<Star> stars, int numberOfStars, StarType type) 
 	{
-		Star[] stars = new Star[numberOfStars];
 		for(int i = 0; i < numberOfStars; ++i) 
 		{
-			Point center = new Point(Math.random() * SCREEN_WIDTH, Math.random() * SCREEN_HEIGHT);
-			int radius = (int) (Math.random() * maxRadius);
-			if(radius < 1)
-			{
-				radius = 1;
-			}
-			stars[i] = new Star(center, radius);
+			Point center = new Point(ThreadLocalRandom.current().nextDouble() * SCREEN_WIDTH, ThreadLocalRandom.current().nextDouble() * SCREEN_HEIGHT);
+			int radius = (int) (ThreadLocalRandom.current().nextDouble(1, type.maxRadius));
+			stars.add(new Star(center, radius, type.speed));
 		}
 		return stars;
 	 }
 	
-	public List<Asteroid> createRandomAsteroids(int number, int maxWidth, int minWidth, int speed) 
+	public ArrayList<Asteroid> createRandomAsteroids(ArrayList<Asteroid> asteroids, int number, AsteroidType type) 
 	{
-		List<Asteroid> asteroids = new ArrayList<>(number);
-
 		for(int i = 0; i < number; ++i) 
 		{
 			// Create random asteroids by sampling points on a circle
 			// Find the radius first.
-			int radius = (int) (Math.random() * maxWidth);
-			if(radius < minWidth)
-			{
-				radius += minWidth;
-			}
+			int radius = (int) (ThreadLocalRandom.current().nextInt(type.minWidth, type.maxWidth + 1));
+
 			// Find the circles angle
-			double angle = (Math.random() * Math.PI * 1.0/2.0);
+			double angle = (ThreadLocalRandom.current().nextDouble() * Math.PI * 1.0/2.0);
 			if(angle < Math.PI * 1.0/5.0)
 			{
 				angle += Math.PI * 1.0/5.0;
@@ -92,26 +85,13 @@ public class AsteroidsControl
 			}
 			// Set everything up to create the asteroid
 			Point[] inSides = asteroidSides.toArray(new Point[asteroidSides.size()]);
-			double randomX = Math.random() * SCREEN_WIDTH;
-			double randomY = Math.random() * SCREEN_HEIGHT;
-			boolean xTooNearShip = false;
-			boolean yTooNearShip = false;
-			if((randomX > 350) && (randomX <450)){xTooNearShip = true;}
-			if((randomY > 250) && (randomY <350)){yTooNearShip = true;}
-			if((xTooNearShip) && (yTooNearShip))
-			{
-				if(xTooNearShip)
-				{
-					if((int)randomX % 2 == 0){	randomX += 100;	}else{ randomX -= 100; }
-				}
-				else
-				{
-					if((int)randomY % 2 == 0){	randomY += 100;	}else{ randomY -= 100; }
-				}
-			}
-			Point inPosition = new Point(randomX, randomY);
-			double inRotation = Math.random() * 360;
-			asteroids.add(new Asteroid(inSides, inPosition, inRotation, speed));
+			double x = ThreadLocalRandom.current().nextDouble() * SCREEN_WIDTH;
+			double y = ThreadLocalRandom.current().nextDouble() * SCREEN_HEIGHT;
+			if(ThreadLocalRandom.current().nextDouble() > .5) { x = 0; }
+			else { y = 0; }
+			Point inPosition = new Point(x, y);
+			double inRotation = ThreadLocalRandom.current().nextDouble() * 360;
+			asteroids.add(new Asteroid(inSides, inPosition, inRotation, type.maxWidth, type.speed));
 		}
 		return asteroids;
 	}

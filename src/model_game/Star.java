@@ -14,10 +14,12 @@ import model_abstracts.Point;
 
 public class Star extends Circle 
 {
+	private double speed;
 
-	public Star(Point center, int radius)
+	public Star(Point center, int radius, double speed)
 	{
 		super(center, radius);
+		this.speed = speed;
 	}
 
 	public void paint(Graphics brush, double rotation) 
@@ -42,8 +44,8 @@ public class Star extends Circle
             mod = 3;
 		}
 		
-		center.x += mod * Math.cos(radians);
-		center.y += mod * Math.sin(radians);
+		center.x += speed * mod * Math.cos(radians);
+		center.y += speed * mod * Math.sin(radians);
 
 
 		if(center.x > AsteroidsControl.SCREEN_WIDTH) 

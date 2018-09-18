@@ -8,13 +8,15 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import control.AsteroidsControl;
-import model.States;
+import model_enum.StarType;
+import model_enum.States;
 import model_game.Star;
 import view.Animation;
 
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import java.awt.GridBagConstraints;
@@ -29,7 +31,7 @@ public class AsteroidsMenu extends JPanel implements Animation
 	private static final long serialVersionUID = 3738683657239431767L;
 	private AsteroidsControl base;
 	private JButton newGameButton;
-	private Star[] stars;
+	private ArrayList<Star> stars;
 	private Timer repaintTimer;
 	private ActionListener repainter;
 	private double starRotation;
@@ -38,12 +40,7 @@ public class AsteroidsMenu extends JPanel implements Animation
 	{
 		this.base = base;
 		newGameButton = new JButton("Start New Game");
-		newGameButton.setBorderPainted(false);
-		newGameButton.setFocusPainted(false);
-		newGameButton.setFont(new Font("Monospaced", Font.BOLD, 30));
-		newGameButton.setForeground(Color.BLUE);
-		newGameButton.setContentAreaFilled(false);
-		stars = base.createStars(200, 5);
+		stars = base.createStars(new ArrayList<Star>(), 200, StarType.STANDARD);
 		starRotation = 0;
 		
 		setUpLayout();
@@ -72,6 +69,11 @@ public class AsteroidsMenu extends JPanel implements Animation
 		gbc_lblTitle.gridy = 1;
 		add(lblTitle, gbc_lblTitle);
 		
+		newGameButton.setBorderPainted(false);
+		newGameButton.setFocusPainted(false);
+		newGameButton.setFont(new Font("Monospaced", Font.BOLD, 30));
+		newGameButton.setForeground(Color.BLUE);
+		newGameButton.setContentAreaFilled(false);
 		GridBagConstraints gbc_newGameButton = new GridBagConstraints();
 		gbc_newGameButton.fill = GridBagConstraints.HORIZONTAL;
 		gbc_newGameButton.insets = new Insets(0, 0, 5, 5);

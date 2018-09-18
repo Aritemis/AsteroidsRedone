@@ -16,12 +16,14 @@ public class Asteroid extends Polygon
 	@SuppressWarnings("unused")
 	private Point[] points;
 	private int maxWidth;
+	private double speed;
 	
-	public Asteroid(Point[] inShape, Point inPosition, double inRotation, int maxWidth) 
+	public Asteroid(Point[] inShape, Point inPosition, double inRotation, int maxWidth, double speed) 
 	{
 		super(inShape, inPosition, inRotation);
 		this.points = inShape;
-		this.maxWidth = 2 * maxWidth;
+		this.maxWidth = maxWidth;
+		this.speed = speed;
 	}
 
 	public void paint(Graphics brush, Color color) 
@@ -44,8 +46,8 @@ public class Asteroid extends Polygon
 
 	public void move() 
 	{
-		position.x += Math.cos(Math.toRadians(rotation));
-		position.y += Math.sin(Math.toRadians(rotation));
+		position.x += speed * Math.cos(Math.toRadians(rotation));
+		position.y += speed * Math.sin(Math.toRadians(rotation));
 		int screenWidth = AsteroidsControl.SCREEN_WIDTH;
 		int screenHeight = AsteroidsControl.SCREEN_HEIGHT;
 		if(position.x > screenWidth + maxWidth) 

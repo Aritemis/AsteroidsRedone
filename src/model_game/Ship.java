@@ -33,16 +33,8 @@ public class Ship extends Polygon implements KeyListener
 	public Ship(Point inPosition, double inRotation)
 	{
 		super(shipShape, inPosition, inRotation);
-		forward = false;
-		backward = false;
-		turningRight = false;
-		turningLeft = false;
-		shoot = false;
-		mustRelease = false;
-		shots = new ArrayList<Bullet>();
 		front = inPosition;
-		colorPosition = 0;
-		shipColor = 0;
+		resetShip();
 	}
 
 	public void paint(Graphics brush, Color color) 
@@ -155,6 +147,19 @@ public class Ship extends Polygon implements KeyListener
 		{
 			position.y += AsteroidsControl.SCREEN_HEIGHT;
 		}
+	}
+	
+	public void resetShip()
+	{
+		forward = false;
+		backward = false;
+		turningRight = false;
+		turningLeft = false;
+		shoot = false;
+		mustRelease = false;
+		shots = new ArrayList<Bullet>();
+		colorPosition = 0;
+		shipColor = 0;
 	}
 	
 	public ArrayList<Bullet> getBullets()

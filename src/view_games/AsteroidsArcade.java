@@ -17,6 +17,8 @@ import javax.swing.SpringLayout;
 import javax.swing.Timer;
 import control.AsteroidsControl;
 import model_abstracts.Point;
+import model_enum.AsteroidType;
+import model_enum.StarType;
 import model_game.Asteroid;
 import model_game.Bullet;
 import model_game.Ship;
@@ -31,8 +33,8 @@ public class AsteroidsArcade extends JPanel implements Animation
 	private AsteroidsControl base;
 	private SpringLayout theLayout;
 	private Ship ship;
-	private List<Asteroid> randomAsteroids = new ArrayList<Asteroid>();
-	private Star[] stars;
+	private ArrayList<Asteroid> randomAsteroids;
+	private ArrayList<Star> stars;
 	private int collideCount;
 	private int lives;
 	private boolean invincible;
@@ -51,9 +53,6 @@ public class AsteroidsArcade extends JPanel implements Animation
 	private boolean collide;
 	
 	public int numAsteroids = 20;
-	public int maxAsteroidWidth = 35;
-	public int minAsteroidWidth = 30;
-	public int asteroidSpeed = 1;
 
 	public AsteroidsArcade(AsteroidsControl base)
 	{
@@ -65,7 +64,7 @@ public class AsteroidsArcade extends JPanel implements Animation
 		shipPosition = new Point(400,300);
 		ship = new Ship(shipPosition, 270);
 		this.addKeyListener(ship);
-		reset();
+		resetGame();
 		try 
 		{
 			lose = ImageIO.read(this.getClass().getResourceAsStream("lose.png"));
@@ -116,11 +115,12 @@ public class AsteroidsArcade extends JPanel implements Animation
 		repaintTimer.stop();
 	}
 	
-	private void reset()
+	private void resetGame()
 	{
 		ship.setPosition(shipPosition);
-		randomAsteroids = base.createRandomAsteroids(numAsteroids, maxAsteroidWidth, minAsteroidWidth, asteroidSpeed);
-		stars = base.createStars(200, 5);
+		ship.resetShip();
+		randomAsteroids = base.createRandomAsteroids(new ArrayList<Asteroid>(), numAsteroids, AsteroidType.STANDARD);
+		stars = base.createStars(new ArrayList<Star>(), 200, StarType.STANDARD);
 		collideCount = 0;
 		lives = 3;
 		invincible = false;
@@ -219,7 +219,7 @@ public class AsteroidsArcade extends JPanel implements Animation
 		this.requestFocus();
 		if(AsteroidsControl.limbo)
 		{
-			if(AsteroidsControl.reset){	reset(); }
+			if(AsteroidsControl.reset){	resetGame(); }
 		}
 		else if(AsteroidsControl.paused)
 		{

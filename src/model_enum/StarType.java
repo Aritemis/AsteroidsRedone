@@ -6,7 +6,7 @@ package model_enum;
 
 public enum StarType
 {
-	STANDARD (6, 1);
+	STANDARD (6, 1), SLOW (8, .5), FAST (4, 2);
 	
 	public int maxRadius;
 	public double speed;

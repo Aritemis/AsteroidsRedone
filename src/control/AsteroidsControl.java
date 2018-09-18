@@ -7,7 +7,6 @@ package control;
 import java.util.concurrent.ThreadLocalRandom;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
 import model.HighScore;
 import model_abstracts.Point;
 import model_enum.AsteroidType;

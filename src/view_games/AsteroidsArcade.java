@@ -120,7 +120,9 @@ public class AsteroidsArcade extends JPanel implements Animation
 		ship.setPosition(shipPosition);
 		ship.resetShip();
 		randomAsteroids = base.createRandomAsteroids(new ArrayList<Asteroid>(), numAsteroids, AsteroidType.STANDARD);
-		stars = base.createStars(new ArrayList<Star>(), 200, StarType.STANDARD);
+		stars = base.createStars(new ArrayList<Star>(), 100, StarType.STANDARD);
+		stars = base.createStars(stars, 50, StarType.SLOW);
+		stars = base.createStars(stars, 100, StarType.FAST);
 		collideCount = 0;
 		lives = 3;
 		invincible = false;

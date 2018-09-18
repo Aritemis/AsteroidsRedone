@@ -6,15 +6,13 @@ package model;
 
 import java.awt.Color;
 import java.awt.Graphics;
-
-import modelabstracts.Point;
-import modelabstracts.Polygon;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import control.AsteroidsControl;
+import model_abstracts.Point;
+import model_abstracts.Polygon;
 
 public class Ship extends Polygon implements KeyListener
 {
@@ -120,6 +118,11 @@ public class Ship extends Polygon implements KeyListener
 		return rotation;
 	}
 
+	public void setPosition(Point position)
+	{
+		super.setPosition(position);
+	}
+	
 	public void keyPressed(KeyEvent e) 
 	{
 		if(!AsteroidsControl.limbo && !AsteroidsControl.paused)

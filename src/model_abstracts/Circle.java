@@ -2,7 +2,7 @@
  * @author Ariana Fairbanks
  */
 
-package modelabstracts;
+package model_abstracts;
 
 public abstract class Circle
 {

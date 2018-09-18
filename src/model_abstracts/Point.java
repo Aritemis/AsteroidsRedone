@@ -1,4 +1,4 @@
-package modelabstracts;
+package model_abstracts;
 
 public class Point implements Cloneable 
 {

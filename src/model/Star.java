@@ -8,9 +8,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import modelabstracts.Circle;
-import modelabstracts.Point;
 import control.AsteroidsControl;
+import model_abstracts.Circle;
+import model_abstracts.Point;
 
 public class Star extends Circle 
 {

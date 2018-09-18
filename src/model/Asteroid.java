@@ -7,9 +7,9 @@ package model;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import modelabstracts.Point;
-import modelabstracts.Polygon;
 import control.AsteroidsControl;
+import model_abstracts.Point;
+import model_abstracts.Polygon;
 
 public class Asteroid extends Polygon
 {

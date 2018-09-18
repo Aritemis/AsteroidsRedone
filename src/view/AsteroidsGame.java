@@ -30,7 +30,7 @@ import model.Asteroid;
 import model.Bullet;
 import model.Ship;
 import model.Star;
-import modelabstracts.Point;
+import model_abstracts.Point;
 
 
 public class AsteroidsGame extends JPanel implements Animation
@@ -53,13 +53,12 @@ public class AsteroidsGame extends JPanel implements Animation
 	private BufferedImage any;
 	private BufferedImage pause;
 	private BufferedImage proceed;
+	private Point shipPosition;
 	
 	public int numAsteroids = 20;
 	public int maxAsteroidWidth = 35;
 	public int minAsteroidWidth = 30;
 	public int asteroidSpeed = 1;
-	
-
 
 	public AsteroidsGame(AsteroidsControl base)
 	{
@@ -67,6 +66,9 @@ public class AsteroidsGame extends JPanel implements Animation
 		theLayout = new SpringLayout();
 		this.setFocusable(true);
 		this.requestFocus();
+		shipPosition = new Point(400,300);
+		ship = new Ship(shipPosition, 270);
+		this.addKeyListener(ship);
 		reset();
 		try 
 		{
@@ -120,13 +122,11 @@ public class AsteroidsGame extends JPanel implements Animation
 	
 	private void reset()
 	{
-		Point shipPosition = new Point(400,300);
-		ship = new Ship(shipPosition, 270);
-		this.addKeyListener(ship);
+		ship.setPosition(shipPosition);
 		randomAsteroids = base.createRandomAsteroids(numAsteroids, maxAsteroidWidth, minAsteroidWidth, asteroidSpeed);
 		stars = base.createStars(200, 5);
 		collideCount = 0;
-		lives = 5;
+		lives = 3;
 		invincible = false;
 		AsteroidsControl.limbo = false;
 		AsteroidsControl.reset = false;

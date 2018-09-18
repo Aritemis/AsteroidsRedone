@@ -7,8 +7,8 @@ package model;
 import java.awt.Color;
 import java.awt.Graphics;
 import control.AsteroidsControl;
-import modelabstracts.Circle;
-import modelabstracts.Point;
+import model_abstracts.Circle;
+import model_abstracts.Point;
 
 public class Bullet extends Circle 
 {

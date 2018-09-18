@@ -5,17 +5,20 @@
 package control;
 
 import java.awt.Color;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 import model.Asteroid;
 import model.Star;
-import modelabstracts.Point;
+import model_abstracts.Point;
 import view.AsteroidsFrame;
 import view.States;
 
 public class AsteroidsControl
 {
+	public static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+	
 	public static final int SCREEN_WIDTH = 800;
 	public static final int SCREEN_HEIGHT = 600;
 
@@ -29,6 +32,8 @@ public class AsteroidsControl
 	
 	public AsteroidsFrame frame;
 	private States state;
+	
+	private int highScoreEndless;
 	
 	
 	public void start()

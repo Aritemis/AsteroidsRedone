@@ -1,4 +1,4 @@
-package modelabstracts;
+package model_abstracts;
 
 public abstract class Polygon 
 {
@@ -84,14 +84,9 @@ public abstract class Polygon
 
 	public void rotate(int degrees) {rotation = (rotation+degrees)%360;}
 
-	/*
-  The following methods are private access restricted because, as this access
-  level always implies, they are intended for use only as helpers of the
-  methods in this class that are not private. They can't be used anywhere else.
-	 */
-
 	// "findArea" implements some more magic math.
-	private double findArea() {
+	private double findArea() 
+	{
 		double sum = 0;
 		for (int i = 0, j = 1; i < shape.length; i++, j=(j+1)%shape.length) 
 		{
@@ -113,5 +108,10 @@ public abstract class Polygon
 		}
 		double area = findArea();
 		return new Point((int) Math.abs(sum.x/(6*area)), (int)Math.abs(sum.y/(6*area)));
+	}
+	
+	protected void setPosition(Point position)
+	{
+		this.position = position;
 	}
 }

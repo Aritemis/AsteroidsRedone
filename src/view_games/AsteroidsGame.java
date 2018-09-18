@@ -2,7 +2,7 @@
  *	@author Ariana Fairbanks
  */
 
-package view;
+package view_games;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -26,11 +26,12 @@ import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.border.LineBorder;
 import control.AsteroidsControl;
-import model.Asteroid;
-import model.Bullet;
-import model.Ship;
-import model.Star;
 import model_abstracts.Point;
+import model_game.Asteroid;
+import model_game.Bullet;
+import model_game.Ship;
+import model_game.Star;
+import view.Animation;
 
 
 public class AsteroidsGame extends JPanel implements Animation

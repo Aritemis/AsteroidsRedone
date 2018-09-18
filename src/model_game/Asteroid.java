@@ -2,7 +2,7 @@
  *	@author Ariana Fairbanks
  */
 
-package model;
+package model_game;
 
 import java.awt.Color;
 import java.awt.Graphics;

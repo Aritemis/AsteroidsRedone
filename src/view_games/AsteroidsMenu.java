@@ -2,13 +2,15 @@
  *	@author Ariana Fairbanks
  */
 
-package view;
+package view_games;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import control.AsteroidsControl;
-import model.Star;
+import model.States;
+import model_game.Star;
+import view.Animation;
 
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;

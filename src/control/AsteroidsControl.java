@@ -9,11 +9,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Asteroid;
-import model.Star;
+import model.States;
 import model_abstracts.Point;
+import model_game.Asteroid;
+import model_game.Star;
 import view.AsteroidsFrame;
-import view.States;
 
 public class AsteroidsControl
 {

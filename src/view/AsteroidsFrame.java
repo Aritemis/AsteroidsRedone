@@ -7,6 +7,9 @@ package view;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import control.AsteroidsControl;
+import model.States;
+import view_games.AsteroidsGame;
+import view_games.AsteroidsMenu;
 
 
 public class AsteroidsFrame extends JFrame

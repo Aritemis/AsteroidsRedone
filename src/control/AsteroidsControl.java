@@ -52,7 +52,7 @@ public class AsteroidsControl
 		for(int i = 0; i < numberOfStars; ++i) 
 		{
 			Point center = new Point(ThreadLocalRandom.current().nextDouble() * SCREEN_WIDTH, ThreadLocalRandom.current().nextDouble() * SCREEN_HEIGHT);
-			int radius = (int) (ThreadLocalRandom.current().nextDouble(1, type.maxRadius));
+			int radius = ThreadLocalRandom.current().nextInt(type.minRadius, type.maxRadius + 1);
 			stars.add(new Star(center, radius, type.speed));
 		}
 		return stars;
@@ -64,7 +64,7 @@ public class AsteroidsControl
 		{
 			// Create random asteroids by sampling points on a circle
 			// Find the radius first.
-			int radius = (int) (ThreadLocalRandom.current().nextInt(type.minWidth, type.maxWidth + 1));
+			int radius = ThreadLocalRandom.current().nextInt(type.minWidth, type.maxWidth + 1);
 
 			// Find the circles angle
 			double angle = (ThreadLocalRandom.current().nextDouble() * Math.PI * 1.0/2.0);

@@ -4,11 +4,10 @@
 
 package control;
 
-import java.awt.Color;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-
+import model.HighScore;
 import model.States;
 import model_abstracts.Point;
 import model_game.Asteroid;
@@ -25,79 +24,25 @@ public class AsteroidsControl
 	public static boolean paused;
 	public static boolean limbo; //continue?
 	public static boolean reset; //set up next level
-	public boolean collide;
-	public int counter;
-	public int shipColor;
-	public int colorPosition;
 	
-	public AsteroidsFrame frame;
+	private AsteroidsFrame frame;
 	private States state;
+	private HighScore[] highScores;
 	
-	private int highScoreEndless;
 	
 	
 	public void start()
 	{
-		resetMenu();
-		frame = new AsteroidsFrame(this);
-	}
-	
-	private void resetMenu()
-	{
 		limbo = false;
 		reset = false;
 		paused = false;
-		collide = false;
+		frame = new AsteroidsFrame(this);
 	}
 	
 	public void changeState(States state)
 	{
 		this.state = state;
 		frame.changeViewState();
-	}
-	
-	public Color rainbow()
-	{
-		Color color = null;
-		switch(colorPosition)
-		{
-			case 0:
-				color = Color.cyan;
-				colorPosition ++;
-				break;
-				
-			case 1: 
-				color = Color.blue;
-				colorPosition = 0;
-				break;
-				
-			default:
-				color = Color.gray;
-				break;
-		}
-		return color;
-	}
-	
-	public Color danger()
-	{
-		Color color = null;
-		switch(shipColor)
-		{
-			case 0:
-				color = Color.red;
-				shipColor ++;
-				break;
-				
-			case 1: 
-				color = Color.white;
-				shipColor = 0;
-				break;
-				
-			default:
-				color = Color.gray;
-				break;
-		}
-		return color;
 	}
 	
 	public Star[] createStars(int numberOfStars, int maxRadius) 
@@ -174,6 +119,11 @@ public class AsteroidsControl
 	public States getState()
 	{
 		return state;
+	}
+	
+	public AsteroidsFrame getFrame()
+	{
+		return frame;
 	}
 	
 }

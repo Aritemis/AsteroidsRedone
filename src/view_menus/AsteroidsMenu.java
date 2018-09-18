@@ -2,7 +2,7 @@
  *	@author Ariana Fairbanks
  */
 
-package view_games;
+package view_menus;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;

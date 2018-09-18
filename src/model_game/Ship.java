@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import control.AsteroidsControl;
 import model_abstracts.Point;
 import model_abstracts.Polygon;
+import view.Animation;
 
 public class Ship extends Polygon implements KeyListener
 {
@@ -25,6 +26,8 @@ public class Ship extends Polygon implements KeyListener
 	private ArrayList<Bullet> shots;
 	@SuppressWarnings("unused")
 	private Point front;
+	private int colorPosition;
+	private int shipColor;
 	private static Point[] shipShape = { new Point(0, 0), new Point(0, 20), new Point(30, 10) };
 
 	public Ship(Point inPosition, double inRotation)
@@ -38,6 +41,8 @@ public class Ship extends Polygon implements KeyListener
 		mustRelease = false;
 		shots = new ArrayList<Bullet>();
 		front = inPosition;
+		colorPosition = 0;
+		shipColor = 0;
 	}
 
 	public void paint(Graphics brush, Color color) 
@@ -58,6 +63,50 @@ public class Ship extends Polygon implements KeyListener
 		brush.drawPolygon(xValues, yValues, npts);
 	}
 
+	public Color rainbow()
+	{
+		Color color = null;
+		switch(colorPosition)
+		{
+			case 0:
+				color = Color.cyan;
+				colorPosition ++;
+				break;
+				
+			case 1: 
+				color = Color.blue;
+				colorPosition = 0;
+				break;
+				
+			default:
+				color = Color.gray;
+				break;
+		}
+		return color;
+	}
+	
+	public Color danger()
+	{
+		Color color = null;
+		switch(shipColor)
+		{
+			case 0:
+				color = Color.red;
+				shipColor ++;
+				break;
+				
+			case 1: 
+				color = Color.white;
+				shipColor = 0;
+				break;
+				
+			default:
+				color = Color.gray;
+				break;
+		}
+		return color;
+	}
+	
 	public void move() 
 	{	
         if(forward) 

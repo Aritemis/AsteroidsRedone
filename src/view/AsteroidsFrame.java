@@ -8,8 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import control.AsteroidsControl;
 import model.States;
-import view_games.AsteroidsGame;
-import view_games.AsteroidsMenu;
+import view_games.AsteroidsArcade;
+import view_menus.AsteroidsMenu;
 
 
 public class AsteroidsFrame extends JFrame
@@ -41,7 +41,7 @@ public class AsteroidsFrame extends JFrame
 				break;
 			case GAME:
 				panel.removeAll();
-				panel = new AsteroidsGame(base);
+				panel = new AsteroidsArcade(base);
 				break;
 			default:
 				System.out.println("Something went wrong when changing views.");

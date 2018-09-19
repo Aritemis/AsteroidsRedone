@@ -7,6 +7,7 @@ package model_game;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.concurrent.ThreadLocalRandom;
 
 import control.AsteroidsControl;
 import model_abstracts.Circle;
@@ -27,6 +28,10 @@ public class Star extends Circle
 		Graphics2D g2d = (Graphics2D) brush;
 		move(rotation);
 		g2d.setColor(Color.white);
+		if(ThreadLocalRandom.current().nextDouble() < .15)
+		{
+			g2d.setColor(Color.gray);
+		}
 		g2d.fillOval((int) center.x, (int) center.y, radius, radius);
 	}
 

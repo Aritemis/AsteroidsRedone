@@ -21,6 +21,7 @@ public class Ship extends Polygon implements KeyListener
 	public static boolean backward;
 	public static boolean turningRight;
 	public static boolean turningLeft;
+	private double startingRotation;
 	private boolean shoot;
 	private boolean mustRelease;
 	private ArrayList<Bullet> shots;
@@ -32,8 +33,8 @@ public class Ship extends Polygon implements KeyListener
 
 	public Ship(Point inPosition, double inRotation)
 	{
-		super(shipShape, inPosition, inRotation);
-		front = inPosition;
+		super(shipShape, inPosition.clone(), inRotation);
+		startingRotation = inRotation;
 		resetShip();
 	}
 
@@ -160,6 +161,7 @@ public class Ship extends Polygon implements KeyListener
 		shots = new ArrayList<Bullet>();
 		colorPosition = 0;
 		shipColor = 0;
+		rotation = startingRotation;
 	}
 	
 	public ArrayList<Bullet> getBullets()
@@ -171,10 +173,10 @@ public class Ship extends Polygon implements KeyListener
 	{
 		return rotation;
 	}
-
+	
 	public void setPosition(Point position)
 	{
-		super.setPosition(position);
+		this.position = position.clone();
 	}
 	
 	public void keyPressed(KeyEvent e) 

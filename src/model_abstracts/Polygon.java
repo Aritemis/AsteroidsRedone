@@ -110,8 +110,4 @@ public abstract class Polygon
 		return new Point((int) Math.abs(sum.x/(6*area)), (int)Math.abs(sum.y/(6*area)));
 	}
 	
-	protected void setPosition(Point position)
-	{
-		this.position = position;
-	}
 }

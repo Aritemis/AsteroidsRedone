@@ -33,7 +33,7 @@ public class AsteroidsControl
 	private AsteroidsFrame frame;
 	private States state;
 	private HighScore[] highScores;
-	private List<AsteroidType> asteroidTypes;
+	private ArrayList<AsteroidType> asteroidTypes;
 	
 	
 	
@@ -43,11 +43,9 @@ public class AsteroidsControl
 		reset = false;
 		paused = false;
 		frame = new AsteroidsFrame(this);
-		asteroidTypes = Arrays.asList(AsteroidType.values());
-		if(asteroidTypes.size() > 0)
-		{
-			asteroidTypes.remove(AsteroidType.STANDARD);
-		}
+		asteroidTypes = new ArrayList<AsteroidType>();
+		asteroidTypes.addAll(Arrays.asList(AsteroidType.values()));
+		asteroidTypes.remove(AsteroidType.STANDARD);
 	}
 	
 	public void changeState(States state)
@@ -71,8 +69,8 @@ public class AsteroidsControl
 	{
 		int totalAsteroids = 5 + (level / 5);
 		int currentAsteroids = 0;
-		int speedModifier = 1 + level / 10;
-		int healthModifier = 1 + level / 20;
+		int speedModifier = 1 + (level / 10);
+		int healthModifier = 1 + (level / 15);
 		if(asteroidTypes.size() > 0)
 		{
 			for(AsteroidType currentType : asteroidTypes)
@@ -120,8 +118,8 @@ public class AsteroidsControl
 			Point[] inSides = asteroidSides.toArray(new Point[asteroidSides.size()]);
 			double x = ThreadLocalRandom.current().nextDouble() * SCREEN_WIDTH;
 			double y = ThreadLocalRandom.current().nextDouble() * SCREEN_HEIGHT;
-			if(ThreadLocalRandom.current().nextDouble() > .5) { x = 0; }
-			else { y = 0; }
+			if(ThreadLocalRandom.current().nextDouble() > .5) { x = 100; }
+			else { y = 100; }
 			Point inPosition = new Point(x, y);
 			double inRotation = ThreadLocalRandom.current().nextDouble() * 360;
 			double speed = type.baseSpeed * speedModifier;

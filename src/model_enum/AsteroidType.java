@@ -6,7 +6,7 @@ package model_enum;
 
 public enum AsteroidType
 {
-	STANDARD (35, 50, .5, 1, 1);
+	STANDARD (40, 50, .5, 1, 1);
 	
 	public int minWidth;
 	public int maxWidth;

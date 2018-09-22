@@ -26,6 +26,8 @@ public class Asteroid extends Polygon
 		this.points = inShape;
 		this.maxWidth = maxWidth;
 		this.speed = speed;
+		this.health = health;
+		this.score = score;
 	}
 
 	public void paint(Graphics brush, Color color) 
@@ -72,6 +74,12 @@ public class Asteroid extends Polygon
 		
 	}
 
+	public int hit()
+	{
+		health--;
+		return health;
+	}
+	
 	public int getHealth()
 	{
 		return health;

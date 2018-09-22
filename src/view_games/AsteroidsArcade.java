@@ -52,6 +52,7 @@ public class AsteroidsArcade extends JPanel implements Animation
 	
 	private boolean collide;
 	private int level;
+	private int score;
 	private final int baseScore;
 
 	public AsteroidsArcade(AsteroidsControl base)
@@ -65,6 +66,7 @@ public class AsteroidsArcade extends JPanel implements Animation
 		ship = new Ship(shipPosition, 270);
 		this.addKeyListener(ship);
 		level = 0;
+		score = 0;
 		baseScore = 5;
 		asteroidList = new ArrayList<Asteroid>();
 		resetGame();
@@ -169,7 +171,10 @@ public class AsteroidsArcade extends JPanel implements Animation
 			{
 				if(asteroid.contains(shot.getCenter()))
 				{
-					splodePlz.add(asteroid);
+					if(asteroid.hit() < 1)
+					{
+						splodePlz.add(asteroid);
+					}
 					removeList.add(shot);
 				}
 			}
@@ -178,6 +183,7 @@ public class AsteroidsArcade extends JPanel implements Animation
 		for(Asteroid asteroid : splodePlz)
 		{
 			asteroidList.remove(asteroid);
+			score += asteroid.getScore();
 		}
 		
 		for(Bullet shot: shots)
@@ -263,6 +269,8 @@ public class AsteroidsArcade extends JPanel implements Animation
 			
 				
 				brush.setColor(Color.green);
+				brush.drawString("Level: " + level, 25, 50);
+				brush.drawString("Score: " + score, 25, 75);
 				if(lives < 2)
 				{
 					brush.setColor(Color.red);

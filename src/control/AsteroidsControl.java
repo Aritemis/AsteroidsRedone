@@ -5,11 +5,13 @@
 package control;
 
 import java.util.concurrent.ThreadLocalRandom;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import model.HighScore;
 import model_abstracts.Point;
 import model_enum.AsteroidType;
@@ -29,23 +31,31 @@ public class AsteroidsControl
 	public static boolean paused;
 	public static boolean limbo; //continue?
 	public static boolean reset; //set up next level
+	public static boolean menu;
+	
+	public JPanel messagePanel;
 	
 	private AsteroidsFrame frame;
 	private States state;
 	private HighScore[] highScores;
 	private ArrayList<AsteroidType> asteroidTypes;
 	
-	
-	
 	public void start()
 	{
-		limbo = false;
-		reset = false;
-		paused = false;
+		resetGameVariables();
+		messagePanel = new JPanel();
 		frame = new AsteroidsFrame(this);
 		asteroidTypes = new ArrayList<AsteroidType>();
 		asteroidTypes.addAll(Arrays.asList(AsteroidType.values()));
 		asteroidTypes.remove(AsteroidType.STANDARD);
+	}
+	
+	public void resetGameVariables()
+	{
+		limbo = false;
+		reset = false;
+		paused = false;
+		menu = false;
 	}
 	
 	public void changeState(States state)
@@ -128,6 +138,11 @@ public class AsteroidsControl
 			asteroids.add(new Asteroid(inSides, inPosition, inRotation, type.maxWidth, speed, health, score));
 		}
 		return asteroids;
+	}
+	
+	public int confirmationMessage(String message, String header)
+	{
+		return JOptionPane.showConfirmDialog(messagePanel, message, header, JOptionPane.OK_CANCEL_OPTION);
 	}
 	
 	public States getState()

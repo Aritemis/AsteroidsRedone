@@ -12,20 +12,21 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import javax.swing.Timer;
 import control.AsteroidsControl;
 import model_abstracts.Point;
-import model_enum.AsteroidType;
 import model_enum.StarType;
+import model_enum.States;
 import model_game.Asteroid;
 import model_game.Bullet;
 import model_game.Ship;
 import model_game.Star;
 import view.Animation;
 import view.AsteroidsFrame;
-
+import view_images.Images;
 
 public class AsteroidsArcade extends JPanel implements Animation
 {
@@ -41,13 +42,6 @@ public class AsteroidsArcade extends JPanel implements Animation
 	private Timer repaintTimer;
 	private ActionListener repainter;
 	private AsteroidsFrame frame;
-	
-	private BufferedImage lose;
-	private BufferedImage win;
-	@SuppressWarnings("unused")
-	private BufferedImage any;
-	private BufferedImage pause;
-	private BufferedImage proceed;
 	private Point shipPosition;
 	
 	private boolean collide;
@@ -70,15 +64,7 @@ public class AsteroidsArcade extends JPanel implements Animation
 		baseScore = 5;
 		asteroidList = new ArrayList<Asteroid>();
 		resetGame();
-		try 
-		{
-			lose = ImageIO.read(this.getClass().getResourceAsStream("lose.png"));
-			win = ImageIO.read(this.getClass().getResourceAsStream("win.png"));
-			any = ImageIO.read(this.getClass().getResourceAsStream("any.png"));
-			pause = ImageIO.read(this.getClass().getResourceAsStream("pause.png"));
-			proceed = ImageIO.read(this.getClass().getResourceAsStream("enter.png"));
-		} 
-		catch (Exception e) {}
+		
 		
 		setUpLayout();
 		setUpListeners();
@@ -146,7 +132,7 @@ public class AsteroidsArcade extends JPanel implements Animation
 		}
 	}
 	
-	private void paintBulletsAndAsteroids(Graphics brush, Color shipColor)
+	private void paintAsteroidsAndBullets(Graphics brush, Color shipColor)
 	{
 		List<Bullet> shots = ship.getBullets();
 		List<Bullet> removeList = new ArrayList<Bullet>();
@@ -206,6 +192,18 @@ public class AsteroidsArcade extends JPanel implements Animation
 		}
 	}
 
+	private void paintWords(Graphics brush)
+	{
+		brush.setColor(Color.green);
+		brush.drawString("Level: " + level, 25, 50);
+		brush.drawString("Score: " + score, 25, 75);
+		if(lives < 2)
+		{
+			brush.setColor(Color.red);
+		}
+		brush.drawString("Lives Left: " + lives, 25, 25);
+	}
+	
 	private void paintShip(Graphics brush, Color shipColor)
 	{
 		if(!collide)
@@ -233,30 +231,46 @@ public class AsteroidsArcade extends JPanel implements Animation
 		{
 			if(AsteroidsControl.reset){	resetGame(); }
 		}
+		else if(AsteroidsControl.menu)
+		{
+			stopTimers();
+			AsteroidsControl.paused = true;
+			int dialogResult = base.confirmationMessage("Your score is " + score + ". Are you sure you would like to give up and return to the menu?", "Exit game?");
+			if(dialogResult == JOptionPane.OK_OPTION)
+			{
+				base.changeState(States.MENU);
+			}
+			else
+			{
+				startTimers();
+				AsteroidsControl.paused = true;
+			}
+		}
 		else if(AsteroidsControl.paused)
 		{
-			brush.drawImage(pause , 200, 200, frame);
-			brush.drawImage(proceed , 215, 508, frame);
+			brush.drawImage(Images.PAUSE.image , 200, 200, frame);
+			brush.drawImage(Images.PROCEED.image , 215, 508, frame);
 		}
 		else
 		{
 			if(asteroidList.isEmpty())
 			{
-				brush.drawImage(win , 200, 200, frame);
-				brush.drawImage(proceed , 215, 508, frame);
+				brush.drawImage(Images.WIN.image , 200, 200, frame);
+				brush.drawImage(Images.PROCEED.image , 215, 508, frame);
 				AsteroidsControl.limbo = true;
 			}
 			else if(lives < 1)
 			{
 				brush.setColor(Color.red);
 				brush.drawString("Lives Left: " + lives, 25, 25);
-				brush.drawImage(lose , 200, 200, frame);
-				brush.drawImage(proceed , 215, 508, frame);
+				brush.drawImage(Images.LOSE.image , 200, 200, frame);
+				brush.drawImage(Images.PROCEED.image , 215, 508, frame);
 				AsteroidsControl.limbo = true;
 			}
 			else
 			{
 				super.paint(brush);
+				
 				Color shipColor = ship.rainbow();
 				if(collide)
 				{
@@ -264,19 +278,8 @@ public class AsteroidsArcade extends JPanel implements Animation
 				}
 				
 				paintStars(brush);
-			
-				paintBulletsAndAsteroids(brush, shipColor);
-			
-				
-				brush.setColor(Color.green);
-				brush.drawString("Level: " + level, 25, 50);
-				brush.drawString("Score: " + score, 25, 75);
-				if(lives < 2)
-				{
-					brush.setColor(Color.red);
-				}
-				brush.drawString("Lives Left: " + lives, 25, 25);
-				
+				paintAsteroidsAndBullets(brush, shipColor);
+				paintWords(brush);
 				paintShip(brush, shipColor);
 			}
 		}

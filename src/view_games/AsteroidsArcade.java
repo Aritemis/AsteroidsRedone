@@ -33,7 +33,7 @@ public class AsteroidsArcade extends JPanel implements Animation
 	private AsteroidsControl base;
 	private SpringLayout theLayout;
 	private Ship ship;
-	private ArrayList<Asteroid> randomAsteroids;
+	private ArrayList<Asteroid> asteroidList;
 	private ArrayList<Star> stars;
 	private int collideCount;
 	private int lives;
@@ -51,8 +51,8 @@ public class AsteroidsArcade extends JPanel implements Animation
 	private Point shipPosition;
 	
 	private boolean collide;
-	
-	public int numAsteroids = 20;
+	private int level;
+	private final int baseScore;
 
 	public AsteroidsArcade(AsteroidsControl base)
 	{
@@ -64,6 +64,9 @@ public class AsteroidsArcade extends JPanel implements Animation
 		shipPosition = new Point(400,300);
 		ship = new Ship(shipPosition, 270);
 		this.addKeyListener(ship);
+		level = 0;
+		baseScore = 5;
+		asteroidList = new ArrayList<Asteroid>();
 		resetGame();
 		try 
 		{
@@ -119,7 +122,8 @@ public class AsteroidsArcade extends JPanel implements Animation
 	{
 		ship.resetShip();
 		ship.setPosition(shipPosition);
-		randomAsteroids = base.createRandomAsteroids(new ArrayList<Asteroid>(), numAsteroids, AsteroidType.STANDARD);
+		level++;
+		asteroidList = base.generateAsteroids(asteroidList, level, baseScore);
 		stars = base.createStars(new ArrayList<Star>(), 100, StarType.FAST);
 		stars = base.createStars(stars, 50, StarType.STANDARD);
 		stars = base.createStars(stars, 25, StarType.SLOW);
@@ -146,7 +150,7 @@ public class AsteroidsArcade extends JPanel implements Animation
 		List<Bullet> removeList = new ArrayList<Bullet>();
 		List<Asteroid> splodePlz = new ArrayList<Asteroid>();
 		brush.setColor(Color.gray);
-		for (Asteroid asteroid : randomAsteroids)
+		for (Asteroid asteroid : asteroidList)
 		{
 			asteroid.move();
 			if(asteroid.collision(ship))
@@ -173,7 +177,7 @@ public class AsteroidsArcade extends JPanel implements Animation
 		
 		for(Asteroid asteroid : splodePlz)
 		{
-			randomAsteroids.remove(asteroid);
+			asteroidList.remove(asteroid);
 		}
 		
 		for(Bullet shot: shots)
@@ -230,7 +234,7 @@ public class AsteroidsArcade extends JPanel implements Animation
 		}
 		else
 		{
-			if(randomAsteroids.isEmpty())
+			if(asteroidList.isEmpty())
 			{
 				brush.drawImage(win , 200, 200, frame);
 				brush.drawImage(proceed , 215, 508, frame);

@@ -6,5 +6,5 @@ package model_enum;
 
 public enum States
 {
-	MENU, GAME
+	MENU, ARCADE
 }

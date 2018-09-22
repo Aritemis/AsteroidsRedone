@@ -17,8 +17,10 @@ public class Asteroid extends Polygon
 	private Point[] points;
 	private int maxWidth;
 	private double speed;
+	private int health;
+	private int score;
 	
-	public Asteroid(Point[] inShape, Point inPosition, double inRotation, int maxWidth, double speed) 
+	public Asteroid(Point[] inShape, Point inPosition, double inRotation, int maxWidth, double speed, int health, int score) 
 	{
 		super(inShape, inPosition, inRotation);
 		this.points = inShape;
@@ -68,5 +70,15 @@ public class Asteroid extends Polygon
 			position.y += screenHeight + (1.5 * maxWidth);
 		}
 		
+	}
+
+	public int getHealth()
+	{
+		return health;
+	}
+
+	public int getScore()
+	{
+		return score;
 	}
 }

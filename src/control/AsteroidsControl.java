@@ -7,6 +7,9 @@ package control;
 import java.util.concurrent.ThreadLocalRandom;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import model.HighScore;
 import model_abstracts.Point;
 import model_enum.AsteroidType;
@@ -30,6 +33,7 @@ public class AsteroidsControl
 	private AsteroidsFrame frame;
 	private States state;
 	private HighScore[] highScores;
+	private List<AsteroidType> asteroidTypes;
 	
 	
 	
@@ -39,6 +43,11 @@ public class AsteroidsControl
 		reset = false;
 		paused = false;
 		frame = new AsteroidsFrame(this);
+		asteroidTypes = Arrays.asList(AsteroidType.values());
+		if(asteroidTypes.size() > 0)
+		{
+			asteroidTypes.remove(AsteroidType.STANDARD);
+		}
 	}
 	
 	public void changeState(States state)
@@ -58,7 +67,33 @@ public class AsteroidsControl
 		return stars;
 	 }
 	
-	public ArrayList<Asteroid> createRandomAsteroids(ArrayList<Asteroid> asteroids, int number, AsteroidType type) 
+	public ArrayList<Asteroid> generateAsteroids(ArrayList<Asteroid> asteroids, int level, int baseScore)
+	{
+		int totalAsteroids = 5 + (level / 5);
+		int currentAsteroids = 0;
+		int speedModifier = 1 + level / 10;
+		int healthModifier = 1 + level / 20;
+		if(asteroidTypes.size() > 0)
+		{
+			for(AsteroidType currentType : asteroidTypes)
+			{
+				int number = (int) Math.floor(currentType.appearanceRate * level);
+				if(number > 0)
+				{
+					currentAsteroids += number;
+					asteroids = createAsteroids(asteroids, number, baseScore, speedModifier, healthModifier, currentType);
+				}
+			}
+		}
+		int remainingAsteroids = totalAsteroids - currentAsteroids;
+		if(remainingAsteroids > 0)
+		{
+			asteroids = createAsteroids(asteroids, remainingAsteroids, baseScore, speedModifier, healthModifier, AsteroidType.STANDARD);
+		}
+		return asteroids;
+	}
+	
+	public ArrayList<Asteroid> createAsteroids(ArrayList<Asteroid> asteroids, int number, int baseScore, double speedModifier, double healthModifier, AsteroidType type) 
 	{
 		for(int i = 0; i < number; ++i) 
 		{
@@ -82,7 +117,6 @@ public class AsteroidsControl
 				asteroidSides.add(new Point(x, y));
 				angle += originalAngle;
 			}
-			// Set everything up to create the asteroid
 			Point[] inSides = asteroidSides.toArray(new Point[asteroidSides.size()]);
 			double x = ThreadLocalRandom.current().nextDouble() * SCREEN_WIDTH;
 			double y = ThreadLocalRandom.current().nextDouble() * SCREEN_HEIGHT;
@@ -90,7 +124,10 @@ public class AsteroidsControl
 			else { y = 0; }
 			Point inPosition = new Point(x, y);
 			double inRotation = ThreadLocalRandom.current().nextDouble() * 360;
-			asteroids.add(new Asteroid(inSides, inPosition, inRotation, type.maxWidth, type.speed));
+			double speed = type.baseSpeed * speedModifier;
+			int health = (int) (type.baseHealth * healthModifier);
+			int score = (int) (speed * health * 10);
+			asteroids.add(new Asteroid(inSides, inPosition, inRotation, type.maxWidth, speed, health, score));
 		}
 		return asteroids;
 	}

@@ -39,7 +39,7 @@ public class AsteroidsFrame extends JFrame
 				panel.removeAll();
 				panel = new AsteroidsMenu(base);
 				break;
-			case GAME:
+			case ARCADE:
 				panel.removeAll();
 				panel = new AsteroidsArcade(base);
 				break;

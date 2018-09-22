@@ -9,11 +9,9 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-
 import control.AsteroidsControl;
 import model_abstracts.Point;
 import model_abstracts.Polygon;
-import view.Animation;
 
 public class Ship extends Polygon implements KeyListener
 {

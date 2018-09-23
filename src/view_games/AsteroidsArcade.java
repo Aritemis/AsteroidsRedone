@@ -8,10 +8,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
-import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
@@ -48,21 +46,25 @@ public class AsteroidsArcade extends JPanel implements Animation
 	private int level;
 	private int score;
 	private final int baseScore;
+	private final double shipSpeed;
+	private final int timerCount;
 
 	public AsteroidsArcade(AsteroidsControl base)
 	{
 		this.base = base;
 		frame = base.getFrame();
 		theLayout = new SpringLayout();
-		this.setFocusable(true);
-		this.requestFocus();
-		shipPosition = new Point(400,300);
-		ship = new Ship(shipPosition, 270);
-		this.addKeyListener(ship);
 		level = 0;
 		score = 0;
 		baseScore = 5;
+		shipSpeed = 1;
+		timerCount = 10;
 		asteroidList = new ArrayList<Asteroid>();
+		this.setFocusable(true);
+		this.requestFocus();
+		shipPosition = new Point(400,300);
+		ship = new Ship(shipPosition, 270, shipSpeed);
+		this.addKeyListener(ship);
 		resetGame();
 		
 		
@@ -92,7 +94,7 @@ public class AsteroidsArcade extends JPanel implements Animation
 				repaint();
 			}
 		};
-		repaintTimer = new Timer(12, repainter);
+		repaintTimer = new Timer(timerCount, repainter);
 		repaintTimer.setRepeats(true);
 	}
 	
@@ -248,23 +250,23 @@ public class AsteroidsArcade extends JPanel implements Animation
 		}
 		else if(AsteroidsControl.paused)
 		{
-			brush.drawImage(Images.PAUSE.image , 200, 200, frame);
-			brush.drawImage(Images.PROCEED.image , 215, 508, frame);
+			brush.drawImage(Images.pause, 200, 200, frame);
+			brush.drawImage(Images.proceed, 215, 508, frame);
 		}
 		else
 		{
 			if(asteroidList.isEmpty())
 			{
-				brush.drawImage(Images.WIN.image , 200, 200, frame);
-				brush.drawImage(Images.PROCEED.image , 215, 508, frame);
+				brush.drawImage(Images.win, 200, 200, frame);
+				brush.drawImage(Images.proceed, 215, 508, frame);
 				AsteroidsControl.limbo = true;
 			}
 			else if(lives < 1)
 			{
 				brush.setColor(Color.red);
 				brush.drawString("Lives Left: " + lives, 25, 25);
-				brush.drawImage(Images.LOSE.image , 200, 200, frame);
-				brush.drawImage(Images.PROCEED.image , 215, 508, frame);
+				brush.drawImage(Images.lose, 200, 200, frame);
+				brush.drawImage(Images.proceed, 215, 508, frame);
 				AsteroidsControl.limbo = true;
 			}
 			else

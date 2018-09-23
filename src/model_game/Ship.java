@@ -20,19 +20,19 @@ public class Ship extends Polygon implements KeyListener
 	public static boolean turningRight;
 	public static boolean turningLeft;
 	private double startingRotation;
+	private double speed;
 	private boolean shoot;
 	private boolean mustRelease;
 	private ArrayList<Bullet> shots;
-	@SuppressWarnings("unused")
-	private Point front;
 	private int colorPosition;
 	private int shipColor;
 	private static Point[] shipShape = { new Point(0, 0), new Point(0, 20), new Point(30, 10) };
 
-	public Ship(Point inPosition, double inRotation)
+	public Ship(Point inPosition, double startingRotation, double speed)
 	{
-		super(shipShape, inPosition.clone(), inRotation);
-		startingRotation = inRotation;
+		super(shipShape, inPosition.clone(), startingRotation);
+		this.startingRotation = startingRotation;
+		this.speed = speed;
 		resetShip();
 	}
 
@@ -40,7 +40,6 @@ public class Ship extends Polygon implements KeyListener
 	{
 		Point[] points = this.getPoints();
 		int npts = points.length;
-		this.front = points[0];
 		int[] xValues = new int[npts];
 		int[] yValues = new int[npts];
 		for(int i = 0; i < points.length; i++)
@@ -102,21 +101,21 @@ public class Ship extends Polygon implements KeyListener
 	{	
         if(forward) 
         {
-            position.x += 3 * Math.cos(Math.toRadians(rotation));
-            position.y += 3 * Math.sin(Math.toRadians(rotation));
+            position.x += speed * 3 * Math.cos(Math.toRadians(rotation));
+            position.y += speed * 3 * Math.sin(Math.toRadians(rotation));
         }
         if(backward) 
         {
-            position.x -= 3 * Math.cos(Math.toRadians(rotation));
-            position.y -= 3 * Math.sin(Math.toRadians(rotation));
+            position.x -= speed * 3 * Math.cos(Math.toRadians(rotation));
+            position.y -= speed * 3 * Math.sin(Math.toRadians(rotation));
         }
         if(turningRight) 
         {
-            rotate(2);
+            rotate((int)(speed * 2));
         }
         if(turningLeft) 
         {
-            rotate(-2);
+            rotate((int)(speed * -2));
         }
         if(shoot) 
         {
@@ -251,10 +250,7 @@ public class Ship extends Polygon implements KeyListener
 	}
 
 	@Override
-	public void keyTyped(KeyEvent e) 
-	{
-
-	}
+	public void keyTyped(KeyEvent e){ }
 
 }
 

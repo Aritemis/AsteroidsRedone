@@ -7,22 +7,24 @@ package view_images;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
-public enum Images
-{
-	LOSE("lose.png"), WIN("win.png"), ANY("any.png"), PAUSE("pause.png"), PROCEED("enter.png");
+public class Images
+{	
+	public static BufferedImage lose;
+	public static BufferedImage win;
+	public static BufferedImage any;
+	public static BufferedImage pause;
+	public static BufferedImage proceed;
 	
-	public BufferedImage image;
-	
-	private Images(String imageString)
+	public Images()
 	{
 		try 
 		{
-			image = ImageIO.read(this.getClass().getResourceAsStream("lose.png"));
+			lose = ImageIO.read(this.getClass().getResourceAsStream("lose.png"));
+			win = ImageIO.read(this.getClass().getResourceAsStream("win.png"));
+			any = ImageIO.read(this.getClass().getResourceAsStream("any.png"));
+			pause = ImageIO.read(this.getClass().getResourceAsStream("pause.png"));
+			proceed = ImageIO.read(this.getClass().getResourceAsStream("enter.png"));
 		} 
-		catch (Exception e) 
-		{
-			System.out.println(imageString + " failed to load.");
-		}
+		catch (Exception e) {}
 	}
-	
 }

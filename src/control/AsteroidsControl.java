@@ -20,6 +20,7 @@ import model_enum.States;
 import model_game.Asteroid;
 import model_game.Star;
 import view.AsteroidsFrame;
+import view_images.Images;
 
 public class AsteroidsControl
 {
@@ -34,6 +35,7 @@ public class AsteroidsControl
 	public static boolean menu;
 	
 	public JPanel messagePanel;
+	public Images images;
 	
 	private AsteroidsFrame frame;
 	private States state;
@@ -44,6 +46,7 @@ public class AsteroidsControl
 	{
 		resetGameVariables();
 		messagePanel = new JPanel();
+		images = new Images();
 		frame = new AsteroidsFrame(this);
 		asteroidTypes = new ArrayList<AsteroidType>();
 		asteroidTypes.addAll(Arrays.asList(AsteroidType.values()));

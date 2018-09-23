@@ -207,6 +207,10 @@ public class Ship extends Polygon implements KeyListener
 			{
 				AsteroidsControl.reset = true;
 			}
+			else if(AsteroidsControl.menu)
+			{
+				
+			}
 			else
 			{
 				if(AsteroidsControl.paused)
@@ -217,6 +221,13 @@ public class Ship extends Polygon implements KeyListener
 				{
 					AsteroidsControl.paused = true;
 				}
+			}
+		}
+		if(e.getKeyCode() == KeyEvent.VK_M)
+		{
+			if(!AsteroidsControl.menu)
+			{
+				AsteroidsControl.menu = true;
 			}
 		}
 	}

@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import control.AsteroidsControl;
 import model_enum.States;
 import view_games.AsteroidsArcade;
-import view_menus.AsteroidsMenu;
+import view_menus.AsteroidsStartMenu;
 
 
 public class AsteroidsFrame extends JFrame
@@ -22,7 +22,7 @@ public class AsteroidsFrame extends JFrame
 	public AsteroidsFrame(AsteroidsControl base)
 	{
 		this.base = base;
-		this.panel = new AsteroidsMenu(base);
+		this.panel = new AsteroidsStartMenu(base);
 		setSize(AsteroidsControl.SCREEN_WIDTH, AsteroidsControl.SCREEN_HEIGHT);
 		setVisible(true);
 		setResizable(false);
@@ -37,7 +37,7 @@ public class AsteroidsFrame extends JFrame
 		{
 			case MENU:
 				panel.removeAll();
-				panel = new AsteroidsMenu(base);
+				panel = new AsteroidsStartMenu(base);
 				break;
 			case ARCADE:
 				panel.removeAll();

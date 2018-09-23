@@ -235,17 +235,12 @@ public class AsteroidsArcade extends JPanel implements Animation
 		}
 		else if(AsteroidsControl.menu)
 		{
-			stopTimers();
-			AsteroidsControl.paused = true;
-			int dialogResult = base.confirmationMessage("Your score is " + score + ". Are you sure you would like to give up and return to the menu?", "Exit game?");
-			if(dialogResult == JOptionPane.OK_OPTION)
-			{
-				base.changeState(States.MENU);
-			}
+			if(AsteroidsControl.paused){ }
 			else
 			{
-				startTimers();
-				AsteroidsControl.paused = true;
+				stopTimers();
+				base.resetGameVariables();
+				base.changeState(States.MENU);
 			}
 		}
 		else if(AsteroidsControl.paused)

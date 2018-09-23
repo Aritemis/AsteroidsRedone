@@ -26,7 +26,7 @@ import java.awt.Graphics;
 import java.awt.Font;
 import javax.swing.JLabel;
 
-public class AsteroidsMenu extends JPanel implements Animation
+public class AsteroidsStartMenu extends JPanel implements Animation
 {
 	private static final long serialVersionUID = 3738683657239431767L;
 	private AsteroidsControl base;
@@ -36,7 +36,7 @@ public class AsteroidsMenu extends JPanel implements Animation
 	private ActionListener repainter;
 	private double starRotation;
 	
-	public AsteroidsMenu(AsteroidsControl base)
+	public AsteroidsStartMenu(AsteroidsControl base)
 	{
 		this.base = base;
 		newGameButton = new JButton("Start New Game");
@@ -129,8 +129,7 @@ public class AsteroidsMenu extends JPanel implements Animation
 	@Override
 	public void stopTimers()
 	{
-		repaintTimer.stop();
-		
+		repaintTimer.stop();	
 	}
 	
 	@Override

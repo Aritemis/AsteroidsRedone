@@ -26,22 +26,22 @@ import java.awt.Graphics;
 import java.awt.Font;
 import javax.swing.JLabel;
 
-public class AsteroidsStartMenu extends JPanel implements Animation
+public class AsteroidsUserSelect extends JPanel implements Animation
 {
 	private static final long serialVersionUID = 3738683657239431767L;
 	private AsteroidsControl base;
-	private JButton arcadeModeButton;
-	private JButton userModeButton;
+	private JButton newUser;
+	private JButton returningUser;
 	private ArrayList<Star> stars;
 	private Timer repaintTimer;
 	private ActionListener repainter;
 	private double starRotation;
 	
-	public AsteroidsStartMenu(AsteroidsControl base)
+	public AsteroidsUserSelect(AsteroidsControl base)
 	{
 		this.base = base;
-		arcadeModeButton = new JButton("ARCADE");
-		userModeButton = new JButton("USER MODE");
+		newUser = new JButton("NEW USER");
+		returningUser = new JButton("USER MODE");
 		stars = base.createStars(new ArrayList<Star>(), 100, StarType.FAST);
 		stars = base.createStars(stars, 50, StarType.STANDARD);
 		stars = base.createStars(stars, 25, StarType.SLOW);
@@ -64,57 +64,48 @@ public class AsteroidsStartMenu extends JPanel implements Animation
 		gridBagLayout.rowWeights = new double[]{1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		JLabel lblTitle = new JLabel("ASTEROIDS");
-		lblTitle.setForeground(Color.CYAN);
-		lblTitle.setFont(new Font("Arial", Font.BOLD, 80));
-		GridBagConstraints gbc_lblTitle = new GridBagConstraints();
-		gbc_lblTitle.insets = new Insets(0, 0, 5, 5);
-		gbc_lblTitle.gridx = 1;
-		gbc_lblTitle.gridy = 3;
-		add(lblTitle, gbc_lblTitle);
-		
-		arcadeModeButton.setBorderPainted(false);
-		arcadeModeButton.setFocusPainted(false);
-		arcadeModeButton.setFont(new Font("Monospaced", Font.BOLD, 30));
-		arcadeModeButton.setForeground(Color.BLUE);
-		arcadeModeButton.setContentAreaFilled(false);
-		GridBagConstraints gbc_arcadeGameButton = new GridBagConstraints();
-		gbc_arcadeGameButton.fill = GridBagConstraints.HORIZONTAL;
-		gbc_arcadeGameButton.insets = new Insets(0, 0, 5, 5);
-		gbc_arcadeGameButton.gridx = 1;
-		gbc_arcadeGameButton.gridy = 6;
-		add(arcadeModeButton, gbc_arcadeGameButton);
-		
-		userModeButton.setBorderPainted(false);
-		userModeButton.setFocusPainted(false);
-		userModeButton.setFont(new Font("Monospaced", Font.BOLD, 30));
-		userModeButton.setForeground(Color.BLUE);
-		userModeButton.setContentAreaFilled(false);
-		GridBagConstraints gbc_userModeButton = new GridBagConstraints();
-		gbc_userModeButton.fill = GridBagConstraints.HORIZONTAL;
-		gbc_userModeButton.insets = new Insets(0, 0, 5, 5);
-		gbc_userModeButton.gridx = 1;
-		gbc_userModeButton.gridy = 8;
-		add(userModeButton, gbc_userModeButton);
+		newUser.setBorderPainted(false);
+		newUser.setFocusPainted(false);
+		newUser.setFont(new Font("Monospaced", Font.BOLD, 30));
+		newUser.setForeground(Color.BLUE);
+		newUser.setContentAreaFilled(false);
+		GridBagConstraints gbc_newUser = new GridBagConstraints();
+		gbc_newUser.fill = GridBagConstraints.HORIZONTAL;
+		gbc_newUser.insets = new Insets(0, 0, 5, 5);
+		gbc_newUser.gridx = 1;
+		gbc_newUser.gridy = 6;
+		add(newUser, gbc_newUser);
+
+		returningUser.setBorderPainted(false);
+		returningUser.setFocusPainted(false);
+		returningUser.setFont(new Font("Monospaced", Font.BOLD, 30));
+		returningUser.setForeground(Color.BLUE);
+		returningUser.setContentAreaFilled(false);
+		GridBagConstraints gbc_returningUser = new GridBagConstraints();
+		gbc_returningUser.fill = GridBagConstraints.HORIZONTAL;
+		gbc_returningUser.insets = new Insets(0, 0, 5, 5);
+		gbc_returningUser.gridx = 1;
+		gbc_returningUser.gridy = 8;
+		add(returningUser, gbc_returningUser);
 	}
 	
 	public void setUpListeners()
 	{
-		arcadeModeButton.addActionListener(new ActionListener()
+		newUser.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				base.changeState(States.ARCADE);
+				
 			}
 		});
 		
-		userModeButton.addActionListener(new ActionListener()
+		returningUser.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				base.changeState(States.USERSELECT);
+				
 			}
 		});
 	}

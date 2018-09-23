@@ -32,7 +32,6 @@ public class Asteroid extends Polygon
 
 	public void paint(Graphics brush, Color color) 
 	{
-		move();
 		Point[] points = this.getPoints();
 		int npts = points.length;
 		int[] xValues = new int[npts];

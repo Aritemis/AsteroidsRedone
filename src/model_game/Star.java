@@ -23,10 +23,9 @@ public class Star extends Circle
 		this.speed = speed;
 	}
 
-	public void paint(Graphics brush, double rotation) 
+	public void paint(Graphics brush) 
 	{
 		Graphics2D g2d = (Graphics2D) brush;
-		move(rotation);
 		g2d.setColor(Color.white);
 		if(ThreadLocalRandom.current().nextDouble() < .15)
 		{

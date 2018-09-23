@@ -41,6 +41,7 @@ public class AsteroidsArcade extends JPanel implements Animation
 	private ActionListener repainter;
 	private AsteroidsFrame frame;
 	private Point shipPosition;
+	private Color shipColor;
 	
 	private boolean collide;
 	private int level;
@@ -130,7 +131,11 @@ public class AsteroidsArcade extends JPanel implements Animation
 	{
 		for (Star star : stars)
 		{
-			star.paint(brush, ship.getRotation());
+			if(!AsteroidsControl.paused)
+			{
+				star.move(ship.getRotation());
+			}
+			star.paint(brush);
 		}
 	}
 	
@@ -142,55 +147,57 @@ public class AsteroidsArcade extends JPanel implements Animation
 		brush.setColor(Color.gray);
 		for (Asteroid asteroid : asteroidList)
 		{
-			asteroid.move();
-			if(asteroid.collision(ship))
+			if(!AsteroidsControl.paused)
 			{
-				collideCount = 40;
-				if(!invincible)
+				asteroid.move();
+				if(asteroid.collision(ship))
 				{
-					lives--;
+					collideCount = 40;
+					if(!invincible)
+					{
+						lives--;
+					}
+					collide = true;
+					invincible = true;
 				}
-				collide = true;
-				invincible = true;
+				
+				for(Bullet shot : shots)
+				{
+					if(asteroid.contains(shot.getCenter()))
+					{
+						if(asteroid.hit() < 1)
+						{
+							splodePlz.add(asteroid);
+						}
+						removeList.add(shot);
+					}
+				}
 			}
 			asteroid.paint(brush, Color.white);
-			
-			for(Bullet shot : shots)
+		}
+		
+		if(!AsteroidsControl.paused)
+		{
+			for(Asteroid asteroid : splodePlz)
 			{
-				if(asteroid.contains(shot.getCenter()))
+				asteroidList.remove(asteroid);
+				score += asteroid.getScore();
+			}
+			
+			for(Bullet shot: shots)
+			{
+				shot.move();
+				if(shot.outOfBounds())
 				{
-					if(asteroid.hit() < 1)
-					{
-						splodePlz.add(asteroid);
-					}
 					removeList.add(shot);
 				}
+				shot.paint(brush, shipColor);
 			}
-		}
-		
-		for(Asteroid asteroid : splodePlz)
-		{
-			asteroidList.remove(asteroid);
-			score += asteroid.getScore();
-		}
-		
-		for(Bullet shot: shots)
-		{
-			shot.move();
-			if(shot.outOfBounds())
+			
+			for(Bullet shot : removeList)
 			{
-				removeList.add(shot);
+				shots.remove(shot);
 			}
-			shot.paint(brush, shipColor);
-		}
-		
-		for(Bullet shot: removeList)
-		{
-			shots.remove(shot);
-		}
-		for(Bullet shot : removeList)
-		{
-			shots.remove(shot);
 		}
 	}
 
@@ -222,7 +229,10 @@ public class AsteroidsArcade extends JPanel implements Animation
 				invincible = false;
 			}
 		}
-		ship.move();
+		if(!AsteroidsControl.paused)
+		{
+			ship.move();
+		}
 	}
 	
 	@Override
@@ -235,18 +245,9 @@ public class AsteroidsArcade extends JPanel implements Animation
 		}
 		else if(AsteroidsControl.menu)
 		{
-			if(AsteroidsControl.paused){ }
-			else
-			{
-				stopTimers();
-				base.resetGameVariables();
-				base.changeState(States.MENU);
-			}
-		}
-		else if(AsteroidsControl.paused)
-		{
-			brush.drawImage(Images.pause, 200, 200, frame);
-			brush.drawImage(Images.proceed, 215, 508, frame);
+			stopTimers();
+			base.resetGameVariables();
+			base.changeState(States.MENU);
 		}
 		else
 		{
@@ -266,18 +267,24 @@ public class AsteroidsArcade extends JPanel implements Animation
 			}
 			else
 			{
-				super.paint(brush);
-				
-				Color shipColor = ship.rainbow();
-				if(collide)
+				if(!AsteroidsControl.paused)
 				{
-					shipColor = ship.danger();
+					shipColor = ship.rainbow();
+					if(collide)
+					{
+						shipColor = ship.danger();
+					}
 				}
-				
+				super.paint(brush);
 				paintStars(brush);
 				paintAsteroidsAndBullets(brush, shipColor);
 				paintWords(brush);
 				paintShip(brush, shipColor);
+				if(AsteroidsControl.paused)
+				{
+					brush.drawImage(Images.pause, 200, 200, frame);
+					brush.drawImage(Images.proceed, 215, 508, frame);
+				}
 			}
 		}
 	}

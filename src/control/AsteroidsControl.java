@@ -8,10 +8,11 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import model.HighScore;
 import model_abstracts.Point;
 import model_enum.AsteroidType;
@@ -25,6 +26,8 @@ import view_images.Images;
 public class AsteroidsControl
 {
 	public static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+	public static File userData = new File(System.getProperty("user.home") + "/AsteroidsUsers.json");
+	//public static File scoreData = new File(System.getProperty("user.home") + "/AsteroidsScores.json");
 	
 	public static final int SCREEN_WIDTH = 800;
 	public static final int SCREEN_HEIGHT = 600;
@@ -34,7 +37,7 @@ public class AsteroidsControl
 	public static boolean reset; //set up next level
 	public static boolean menu;
 	
-	public JPanel messagePanel;
+	public static JPanel messagePanel;
 	public Images images;
 	
 	private AsteroidsFrame frame;
@@ -44,6 +47,7 @@ public class AsteroidsControl
 	
 	public void start()
 	{
+		loadData();
 		resetGameVariables();
 		messagePanel = new JPanel();
 		images = new Images();
@@ -59,6 +63,26 @@ public class AsteroidsControl
 		reset = false;
 		paused = false;
 		menu = false;
+	}
+	
+	public void loadData()
+	{
+		if(userData.exists())
+		{
+			System.out.println("yes");
+		}
+		else
+		{
+			try
+			{
+				userData.createNewFile();
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+				System.out.println("Files not created");
+			}
+		}
 	}
 	
 	public void changeState(States state)
@@ -143,7 +167,7 @@ public class AsteroidsControl
 		return asteroids;
 	}
 	
-	public int confirmationMessage(String message, String header)
+	public static int confirmationMessage(String message, String header)
 	{
 		return JOptionPane.showConfirmDialog(messagePanel, message, header, JOptionPane.OK_CANCEL_OPTION);
 	}

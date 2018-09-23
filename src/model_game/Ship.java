@@ -9,6 +9,9 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
+
 import control.AsteroidsControl;
 import model_abstracts.Point;
 import model_abstracts.Polygon;
@@ -207,10 +210,6 @@ public class Ship extends Polygon implements KeyListener
 			{
 				AsteroidsControl.reset = true;
 			}
-			else if(AsteroidsControl.menu)
-			{
-				
-			}
 			else
 			{
 				if(AsteroidsControl.paused)
@@ -227,7 +226,12 @@ public class Ship extends Polygon implements KeyListener
 		{
 			if(!AsteroidsControl.menu)
 			{
-				AsteroidsControl.menu = true;
+				AsteroidsControl.paused = true;
+				int dialogResult = AsteroidsControl.confirmationMessage("Abandon game and return to menu?", "Exit game?");
+				if(dialogResult == JOptionPane.OK_OPTION)
+				{
+					AsteroidsControl.menu = true;
+				}
 			}
 		}
 	}

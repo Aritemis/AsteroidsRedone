@@ -10,8 +10,6 @@ import control.AsteroidsControl;
 import model_enum.States;
 import view_games.AsteroidsArcade;
 import view_menus.AsteroidsStartMenu;
-import view_menus.AsteroidsUserMenu;
-import view_menus.AsteroidsUserSelect;
 
 public class AsteroidsFrame extends JFrame
 {
@@ -39,15 +37,6 @@ public class AsteroidsFrame extends JFrame
 			case MENU:
 				panel.removeAll();
 				panel = new AsteroidsStartMenu(base);
-				break;
-			case USERSELECT:
-				panel.removeAll();
-				panel = new AsteroidsUserSelect(base);
-				break;
-			case USERMENU:
-				panel.removeAll();
-				panel = new AsteroidsUserMenu(base);
-				break;
 			case ARCADE:
 				panel.removeAll();
 				panel = new AsteroidsArcade(base);

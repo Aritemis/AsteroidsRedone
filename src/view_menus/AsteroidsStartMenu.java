@@ -114,7 +114,7 @@ public class AsteroidsStartMenu extends JPanel implements Animation
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				base.changeState(States.USERSELECT);
+				//base.changeState();
 			}
 		});
 	}

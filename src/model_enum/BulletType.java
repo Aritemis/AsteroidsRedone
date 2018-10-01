@@ -5,5 +5,12 @@ package model_enum;
  */
 public enum BulletType
 {
-	STANDARD
+	STANDARD(1);
+	
+	public final int speed;
+	
+	private BulletType(int speed)
+	{
+		this.speed = speed;
+	}
 }

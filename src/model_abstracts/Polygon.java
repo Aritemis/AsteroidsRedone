@@ -3,7 +3,7 @@ package model_abstracts;
 public abstract class Polygon 
 {
 	private Point[] shape;   // An array of points.
-	public Point position;   // The offset mentioned above.
+	public Point position;   
 	public double rotation; // Zero degrees is due east.
 
 	public Polygon(Point[] inShape, Point inPosition, double inRotation) 
@@ -13,19 +13,23 @@ public abstract class Polygon
 		rotation = inRotation;
 
 		// First, we find the shape's top-most left-most boundary, its origin.
-		Point origin = new Point(shape[0].x, shape[0].y);
+		//Point origin = new Point(shape[0].x, shape[0].y);
+		/*
 		for (Point p : shape) 
 		{
 			if (p.x < origin.x) origin.x = p.x;
 			if (p.y < origin.y) origin.y = p.y;
 		}
+		*/
 
 		// Then, we orient all of its points relative to the real origin.
+		/*
 		for (Point p : shape) 
 		{
 			p.x -= origin.x;
 			p.y -= origin.y;
 		}
+		*/
 	}
 
 	// "getPoints" applies the rotation and offset to the shape of the polygon.

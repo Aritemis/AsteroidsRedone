@@ -15,6 +15,8 @@ import javax.swing.JOptionPane;
 import control.AsteroidsControl;
 import model_abstracts.Point;
 import model_abstracts.Polygon;
+import model_enum.BulletType;
+import model_enum.ShipType;
 
 public class Ship extends Polygon implements KeyListener
 {
@@ -29,13 +31,14 @@ public class Ship extends Polygon implements KeyListener
 	private ArrayList<Bullet> shots;
 	private int colorPosition;
 	private int shipColor;
-	private static Point[] shipShape = { new Point(0, 0), new Point(0, 20), new Point(30, 10) };
+	private ShipType type;
 
-	public Ship(Point inPosition, double startingRotation, double speed)
+	public Ship(Point inPosition, double startingRotation, ShipType type)
 	{
-		super(shipShape, inPosition.clone(), startingRotation);
+		super(type.shipShape, inPosition.clone(), startingRotation);
 		this.startingRotation = startingRotation;
-		this.speed = speed;
+		this.speed = type.speed;
+		this.type = type;
 		resetShip();
 	}
 
@@ -124,7 +127,7 @@ public class Ship extends Polygon implements KeyListener
         {
             if(!mustRelease)
             {
-            	Bullet start = new Bullet(getPoints()[2].clone(), rotation);
+            	Bullet start = new Bullet(getPoints()[2].clone(), rotation, BulletType.STANDARD);
             	start.getCenter().x -= 2;
             	shots.add(start);
             }

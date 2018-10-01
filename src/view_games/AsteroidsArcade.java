@@ -16,6 +16,7 @@ import javax.swing.SpringLayout;
 import javax.swing.Timer;
 import control.AsteroidsControl;
 import model_abstracts.Point;
+import model_enum.ShipType;
 import model_enum.StarType;
 import model_enum.States;
 import model_game.Asteroid;
@@ -48,7 +49,6 @@ public class AsteroidsArcade extends JPanel implements Animation
 	private int level;
 	private int score;
 	private final int baseScore;
-	private final double shipSpeed;
 	private final int timerCount;
 
 	public AsteroidsArcade(AsteroidsControl base)
@@ -59,14 +59,13 @@ public class AsteroidsArcade extends JPanel implements Animation
 		level = 0;
 		score = 0;
 		baseScore = 5;
-		shipSpeed = 1;
 		timerCount = 10;
 		clearedLevel = false;
 		asteroidList = new ArrayList<Asteroid>();
 		this.setFocusable(true);
 		this.requestFocus();
-		shipPosition = new Point(400,300);
-		ship = new Ship(shipPosition, 270, shipSpeed);
+		shipPosition = new Point(AsteroidsControl.SCREEN_WIDTH / 2, AsteroidsControl.SCREEN_HEIGHT / 2);
+		ship = new Ship(shipPosition, 270, ShipType.STANDARD);
 		this.addKeyListener(ship);
 		setUpLevel();
 		

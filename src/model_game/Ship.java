@@ -226,11 +226,18 @@ public class Ship extends Polygon implements KeyListener
 		{
 			if(!AsteroidsControl.menu)
 			{
-				AsteroidsControl.paused = true;
-				int dialogResult = AsteroidsControl.confirmationMessage("Abandon game and return to menu?", "Exit game?");
-				if(dialogResult == JOptionPane.OK_OPTION)
+				if(AsteroidsControl.limbo)
 				{
 					AsteroidsControl.menu = true;
+				}
+				else 
+				{
+					AsteroidsControl.paused = true;
+					int dialogResult = AsteroidsControl.confirmationMessage("Abandon game and return to menu?", "Exit game?");
+					if(dialogResult == JOptionPane.OK_OPTION)
+					{
+						AsteroidsControl.menu = true;
+					}
 				}
 			}
 		}

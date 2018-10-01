@@ -37,6 +37,7 @@ public class AsteroidsFrame extends JFrame
 			case MENU:
 				panel.removeAll();
 				panel = new AsteroidsStartMenu(base);
+				break;
 			case ARCADE:
 				panel.removeAll();
 				panel = new AsteroidsArcade(base);

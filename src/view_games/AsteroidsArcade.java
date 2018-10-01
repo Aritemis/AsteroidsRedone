@@ -44,6 +44,7 @@ public class AsteroidsArcade extends JPanel implements Animation
 	private Color shipColor;
 	
 	private boolean collide;
+	private boolean clearedLevel;
 	private int level;
 	private int score;
 	private final int baseScore;
@@ -60,13 +61,14 @@ public class AsteroidsArcade extends JPanel implements Animation
 		baseScore = 5;
 		shipSpeed = 1;
 		timerCount = 10;
+		clearedLevel = false;
 		asteroidList = new ArrayList<Asteroid>();
 		this.setFocusable(true);
 		this.requestFocus();
 		shipPosition = new Point(400,300);
 		ship = new Ship(shipPosition, 270, shipSpeed);
 		this.addKeyListener(ship);
-		resetGame();
+		setUpLevel();
 		
 		
 		setUpLayout();
@@ -109,22 +111,31 @@ public class AsteroidsArcade extends JPanel implements Animation
 		repaintTimer.stop();
 	}
 	
-	private void resetGame()
+	private void setUpLevel()
 	{
 		ship.resetShip();
 		ship.setPosition(shipPosition);
-		level++;
+		if(clearedLevel)
+		{
+			level++;
+		}
+		else
+		{
+			level = 1;
+			score = 0;
+			lives = 3;
+		}
 		asteroidList = base.generateAsteroids(asteroidList, level, baseScore);
 		stars = base.createStars(new ArrayList<Star>(), 100, StarType.FAST);
 		stars = base.createStars(stars, 50, StarType.STANDARD);
 		stars = base.createStars(stars, 25, StarType.SLOW);
 		collideCount = 0;
-		lives = 3;
 		invincible = false;
 		AsteroidsControl.limbo = false;
 		AsteroidsControl.reset = false;
 		AsteroidsControl.paused = false;
 		collide = false;
+		clearedLevel = false;
 	}
 	
 	private void paintStars(Graphics brush)
@@ -239,15 +250,15 @@ public class AsteroidsArcade extends JPanel implements Animation
 	public void paint(Graphics brush) 
 	{
 		this.requestFocus();
-		if(AsteroidsControl.limbo)
-		{
-			if(AsteroidsControl.reset){	resetGame(); }
-		}
-		else if(AsteroidsControl.menu)
+		if(AsteroidsControl.menu)
 		{
 			stopTimers();
 			base.resetGameVariables();
 			base.changeState(States.MENU);
+		}
+		else if(AsteroidsControl.limbo)
+		{
+			if(AsteroidsControl.reset){	setUpLevel(); }
 		}
 		else
 		{
@@ -256,6 +267,7 @@ public class AsteroidsArcade extends JPanel implements Animation
 				brush.drawImage(Images.win, 200, 200, frame);
 				brush.drawImage(Images.proceed, 215, 508, frame);
 				AsteroidsControl.limbo = true;
+				clearedLevel = true;
 			}
 			else if(lives < 1)
 			{

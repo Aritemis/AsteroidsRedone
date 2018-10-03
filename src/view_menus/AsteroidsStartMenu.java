@@ -42,9 +42,9 @@ public class AsteroidsStartMenu extends JPanel implements Animation
 		this.base = base;
 		arcadeModeButton = new JButton("ARCADE");
 		userModeButton = new JButton("USER MODE");
-		stars = base.createStars(new ArrayList<Star>(), 100, StarType.FAST);
-		stars = base.createStars(stars, 50, StarType.STANDARD);
-		stars = base.createStars(stars, 25, StarType.SLOW);
+		stars = Star.createStars(new ArrayList<Star>(), 100, StarType.FAST);
+		stars = Star.createStars(stars, 50, StarType.STANDARD);
+		stars = Star.createStars(stars, 25, StarType.SLOW);
 		starRotation = 0;
 		
 		setUpLayout();

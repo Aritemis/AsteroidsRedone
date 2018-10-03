@@ -62,9 +62,9 @@ public class AsteroidsGame extends JPanel implements Animation
 		baseScore = 5;
 		timerCount = AsteroidsControl.refreshTime;
 		asteroidList = new ArrayList<Asteroid>();
-		stars = base.createStars(new ArrayList<Star>(), 100, StarType.FAST);
-		stars = base.createStars(stars, 50, StarType.STANDARD);
-		stars = base.createStars(stars, 25, StarType.SLOW);
+		stars = Star.createStars(new ArrayList<Star>(), 100, StarType.FAST);
+		stars = Star.createStars(stars, 50, StarType.STANDARD);
+		stars = Star.createStars(stars, 25, StarType.SLOW);
 		this.setFocusable(true);
 		this.requestFocus();
 		shipPosition = new Point(AsteroidsControl.SCREEN_WIDTH / 2, AsteroidsControl.SCREEN_HEIGHT / 2);

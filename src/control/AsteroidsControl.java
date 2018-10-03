@@ -219,65 +219,6 @@ public class AsteroidsControl
 		frame.changeViewState();
 	}
 	
-	public ArrayList<Star> createStars(ArrayList<Star> stars, int numberOfStars, StarType type) 
-	{
-		for(int i = 0; i < numberOfStars; ++i) 
-		{
-			Point center = new Point(ThreadLocalRandom.current().nextDouble() * SCREEN_WIDTH, ThreadLocalRandom.current().nextDouble() * SCREEN_HEIGHT);
-			int radius = ThreadLocalRandom.current().nextInt(type.minRadius, type.maxRadius + 1);
-			stars.add(new Star(center, radius, type.speed));
-		}
-		return stars;
-	 }
-	
-	public ArrayList<Asteroid> generateArcadeAsteroids(ArrayList<Asteroid> asteroids, int level, int baseScore)
-	{
-		int totalAsteroids = 5 + (level / 5);
-		int speedModifier = 1 + (level / 10);
-		int healthModifier = 1 + (level / 15);
-		asteroids = createAsteroids(asteroids, totalAsteroids, baseScore, speedModifier, healthModifier, AsteroidType.STANDARD);
-		return asteroids;
-	}
-	
-	public ArrayList<Asteroid> createAsteroids(ArrayList<Asteroid> asteroids, int number, int baseScore, double speedModifier, double healthModifier, AsteroidType type) 
-	{
-		for(int i = 0; i < number; ++i) 
-		{
-			// Create random asteroids by sampling points on a circle
-			// Find the radius first.
-			int radius = ThreadLocalRandom.current().nextInt(type.minWidth, type.maxWidth + 1);
-
-			// Find the circles angle
-			double angle = (ThreadLocalRandom.current().nextDouble() * Math.PI * 1.0/2.0);
-			if(angle < Math.PI * 1.0/5.0)
-			{
-				angle += Math.PI * 1.0/5.0;
-			}
-			// Sample and store points around that circle
-			ArrayList<Point> asteroidSides = new ArrayList<Point>();
-			double originalAngle = angle;
-			while(angle < 2*Math.PI) 
-			{
-				double x = Math.cos(angle) * radius;
-				double y = Math.sin(angle) * radius;
-				asteroidSides.add(new Point(x, y));
-				angle += originalAngle;
-			}
-			Point[] inSides = asteroidSides.toArray(new Point[asteroidSides.size()]);
-			double x = ThreadLocalRandom.current().nextDouble() * SCREEN_WIDTH;
-			double y = ThreadLocalRandom.current().nextDouble() * SCREEN_HEIGHT;
-			if(ThreadLocalRandom.current().nextDouble() > .5) { x = 100; }
-			else { y = 100; }
-			Point inPosition = new Point(x, y);
-			double inRotation = ThreadLocalRandom.current().nextDouble() * 360;
-			double speed = type.baseSpeed * speedModifier;
-			int health = (int) (type.baseHealth * healthModifier);
-			int score = (int) (speed * health * 10);
-			asteroids.add(new Asteroid(inSides, inPosition, inRotation, type, type.maxWidth, speed, health, score));
-		}
-		return asteroids;
-	}
-	
 	public static int confirmationMessage(String message, String header)
 	{
 		return JOptionPane.showConfirmDialog(messagePanel, message, header, JOptionPane.OK_CANCEL_OPTION);

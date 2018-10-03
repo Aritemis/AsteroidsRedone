@@ -7,11 +7,13 @@ package model_objects;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 import control.AsteroidsControl;
 import model_abstracts.Circle;
 import model_abstracts.Point;
+import model_enum.StarType;
 
 public class Star extends Circle 
 {
@@ -69,5 +71,16 @@ public class Star extends Circle
 			center.y += AsteroidsControl.SCREEN_HEIGHT;
 		}
 	}
+	
+	public static ArrayList<Star> createStars(ArrayList<Star> stars, int numberOfStars, StarType type) 
+	{
+		for(int i = 0; i < numberOfStars; ++i) 
+		{
+			Point center = new Point(ThreadLocalRandom.current().nextDouble() * AsteroidsControl.SCREEN_WIDTH, ThreadLocalRandom.current().nextDouble() * AsteroidsControl.SCREEN_HEIGHT);
+			int radius = ThreadLocalRandom.current().nextInt(type.minRadius, type.maxRadius + 1);
+			stars.add(new Star(center, radius, type.speed));
+		}
+		return stars;
+	 }
 
 }

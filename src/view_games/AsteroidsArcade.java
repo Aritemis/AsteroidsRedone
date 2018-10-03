@@ -63,7 +63,7 @@ public class AsteroidsArcade extends AsteroidsGame
 			score = 0;
 			lives = 5;
 		}
-		asteroidList = base.generateArcadeAsteroids(asteroidList, level, baseScore);
+		asteroidList = Asteroid.generateArcadeAsteroids(asteroidList, level, baseScore);
 		base.resetGameVariables();
 		collideCount = 0;
 		invincible = false;

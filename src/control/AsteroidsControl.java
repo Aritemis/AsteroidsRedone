@@ -36,6 +36,7 @@ import model_enum.States;
 import model_game.Asteroid;
 import model_game.Star;
 import view.AsteroidsFrame;
+import view.ColorPreset;
 import view_images.Images;
 
 public class AsteroidsControl
@@ -44,22 +45,29 @@ public class AsteroidsControl
 	
 	public static final int SCREEN_WIDTH = 800;
 	public static final int SCREEN_HEIGHT = 600;
+	public static final int refreshTime = 10;
 
 	public static boolean paused;
 	public static boolean limbo; //continue?
 	public static boolean reset; //set up next level
 	public static boolean menu;
+	public static boolean move;
 	
 	public static JPanel messagePanel;
 	public Images images;
 	
-	private byte campaignLevel;
-	private int credits;
-	private ShipType currentShip;
-	private BulletType currentBullet;
-	private Integer[] shipUpgrades;
-	private Integer[] bulletUpgrades;
-	private HighScore[] highScores;
+	
+	public static ColorPreset colors = ColorPreset.OBLUE; 
+	
+	private static byte campaignLevel;
+	private static int credits;
+	private static ShipType currentShip;
+	private static BulletType currentBullet;
+	private static Integer[] shipUpgrades;
+	private static Integer[] bulletUpgrades;
+	private static HighScore[] highScores;
+	
+	
 	
 	private AsteroidsFrame frame;
 	private States state;
@@ -69,7 +77,6 @@ public class AsteroidsControl
 	private JsonReader parser;
 	private FileReader fileReader;
 	private FileWriter fileWriter;
-	private ArrayList<AsteroidType> asteroidTypes;
 	
 	public void start()
 	{
@@ -80,9 +87,6 @@ public class AsteroidsControl
 		messagePanel = new JPanel();
 		images = new Images();
 		frame = new AsteroidsFrame(this);
-		asteroidTypes = new ArrayList<AsteroidType>();
-		asteroidTypes.addAll(Arrays.asList(AsteroidType.values()));
-		asteroidTypes.remove(AsteroidType.STANDARD);
 	}
 	
 	public void resetLocalData()
@@ -110,6 +114,7 @@ public class AsteroidsControl
 		reset = false;
 		paused = false;
 		menu = false;
+		move = true;
 	}
 	
 	public void loadData()
@@ -225,29 +230,12 @@ public class AsteroidsControl
 		return stars;
 	 }
 	
-	public ArrayList<Asteroid> generateAsteroids(ArrayList<Asteroid> asteroids, int level, int baseScore)
+	public ArrayList<Asteroid> generateArcadeAsteroids(ArrayList<Asteroid> asteroids, int level, int baseScore)
 	{
 		int totalAsteroids = 5 + (level / 5);
-		int currentAsteroids = 0;
 		int speedModifier = 1 + (level / 10);
 		int healthModifier = 1 + (level / 15);
-		if(asteroidTypes.size() > 0)
-		{
-			for(AsteroidType currentType : asteroidTypes)
-			{
-				int number = (int) Math.floor(currentType.appearanceRate * level);
-				if(number > 0)
-				{
-					currentAsteroids += number;
-					asteroids = createAsteroids(asteroids, number, baseScore, speedModifier, healthModifier, currentType);
-				}
-			}
-		}
-		int remainingAsteroids = totalAsteroids - currentAsteroids;
-		if(remainingAsteroids > 0)
-		{
-			asteroids = createAsteroids(asteroids, remainingAsteroids, baseScore, speedModifier, healthModifier, AsteroidType.STANDARD);
-		}
+		asteroids = createAsteroids(asteroids, totalAsteroids, baseScore, speedModifier, healthModifier, AsteroidType.STANDARD);
 		return asteroids;
 	}
 	
@@ -285,7 +273,7 @@ public class AsteroidsControl
 			double speed = type.baseSpeed * speedModifier;
 			int health = (int) (type.baseHealth * healthModifier);
 			int score = (int) (speed * health * 10);
-			asteroids.add(new Asteroid(inSides, inPosition, inRotation, type.maxWidth, speed, health, score));
+			asteroids.add(new Asteroid(inSides, inPosition, inRotation, type, type.maxWidth, speed, health, score));
 		}
 		return asteroids;
 	}

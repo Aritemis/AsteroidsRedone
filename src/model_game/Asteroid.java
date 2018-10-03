@@ -10,27 +10,27 @@ import java.awt.Graphics;
 import control.AsteroidsControl;
 import model_abstracts.Point;
 import model_abstracts.Polygon;
+import model_enum.AsteroidType;
 
 public class Asteroid extends Polygon
 {
-	@SuppressWarnings("unused")
-	private Point[] points;
+	private AsteroidType type;
 	private int maxWidth;
 	private double speed;
 	private int health;
 	private int score;
 	
-	public Asteroid(Point[] inShape, Point inPosition, double inRotation, int maxWidth, double speed, int health, int score) 
+	public Asteroid(Point[] inShape, Point inPosition, double inRotation, AsteroidType type, int maxWidth, double speed, int health, int score) 
 	{
 		super(inShape, inPosition, inRotation);
-		this.points = inShape;
+		this.type = type;
 		this.maxWidth = maxWidth;
 		this.speed = speed;
 		this.health = health;
 		this.score = score;
 	}
 
-	public void paint(Graphics brush, Color color) 
+	public void paint(Graphics brush) 
 	{
 		Point[] points = this.getPoints();
 		int npts = points.length;
@@ -41,9 +41,9 @@ public class Asteroid extends Polygon
 			xValues[i] = (int) points[i].x;
 			yValues[i] = (int) points[i].y;
 		}
-		brush.setColor(Color.black);
+		brush.setColor(type.fillColor);
 		brush.fillPolygon(xValues, yValues, npts);
-		brush.setColor(color);
+		brush.setColor(type.lineColor);
 		brush.drawPolygon(xValues, yValues, npts);
 	}
 

@@ -24,25 +24,27 @@ public class Ship extends Polygon implements KeyListener
 	public static boolean backward;
 	public static boolean turningRight;
 	public static boolean turningLeft;
-	private double startingRotation;
 	private double speed;
 	private boolean shoot;
 	private boolean mustRelease;
 	private ArrayList<Bullet> shots;
 	private int colorPosition;
-	private int shipColor;
+	private int colorPosition2;
+	private int speedMod;
 	private ShipType type;
+	private Color lineColor;
+	private Color fillColor;
 
-	public Ship(Point inPosition, double startingRotation, ShipType type)
+	public Ship(Point inPosition, ShipType type)
 	{
-		super(type.shipShape, inPosition.clone(), startingRotation);
-		this.startingRotation = startingRotation;
+		super(type.shipShape, inPosition.clone(), type.startingRotation);
 		this.speed = type.speed;
 		this.type = type;
+		speedMod = 2;
 		resetShip();
 	}
 
-	public void paint(Graphics brush, Color color) 
+	public void paint(Graphics brush) 
 	{
 		Point[] points = this.getPoints();
 		int npts = points.length;
@@ -53,75 +55,69 @@ public class Ship extends Polygon implements KeyListener
 			xValues[i] = (int) points[i].x;
 			yValues[i] = (int) points[i].y;
 		}
-		brush.setColor(Color.black);
+		brush.setColor(fillColor);
 		brush.fillPolygon(xValues, yValues, npts);
-		brush.setColor(color);
+		brush.setColor(lineColor);
 		brush.drawPolygon(xValues, yValues, npts);
 	}
 
 	public Color rainbow()
 	{
-		Color color = null;
 		switch(colorPosition)
 		{
 			case 0:
-				color = Color.cyan;
-				colorPosition ++;
+				lineColor = AsteroidsControl.colors.shipNLine1;
+				fillColor = AsteroidsControl.colors.shipNFill1;
+				colorPosition++;
 				break;
 				
 			case 1: 
-				color = Color.blue;
+				lineColor = AsteroidsControl.colors.shipNLine2;
+				fillColor = AsteroidsControl.colors.shipNFill2;
 				colorPosition = 0;
 				break;
-				
-			default:
-				color = Color.gray;
-				break;
 		}
-		return color;
+		return lineColor;
 	}
 	
 	public Color danger()
 	{
-		Color color = null;
-		switch(shipColor)
+		switch(colorPosition2)
 		{
 			case 0:
-				color = Color.red;
-				shipColor ++;
+				lineColor = AsteroidsControl.colors.shipDLine1;
+				fillColor = AsteroidsControl.colors.shipDFill1;
+				colorPosition2++;
 				break;
 				
 			case 1: 
-				color = Color.white;
-				shipColor = 0;
-				break;
-				
-			default:
-				color = Color.gray;
+				lineColor = AsteroidsControl.colors.shipDLine2;
+				fillColor = AsteroidsControl.colors.shipDFill2;
+				colorPosition2 = 0;
 				break;
 		}
-		return color;
+		return lineColor;
 	}
 	
 	public void move() 
 	{	
         if(forward) 
         {
-            position.x += speed * 3 * Math.cos(Math.toRadians(rotation));
-            position.y += speed * 3 * Math.sin(Math.toRadians(rotation));
+            position.x += speed * speedMod * Math.cos(Math.toRadians(rotation));
+            position.y += speed * speedMod * Math.sin(Math.toRadians(rotation));
         }
         if(backward) 
         {
-            position.x -= speed * 3 * Math.cos(Math.toRadians(rotation));
-            position.y -= speed * 3 * Math.sin(Math.toRadians(rotation));
+            position.x -= speed * speedMod * Math.cos(Math.toRadians(rotation));
+            position.y -= speed * speedMod * Math.sin(Math.toRadians(rotation));
         }
         if(turningRight) 
         {
-            rotate((int)(speed * 2));
+            rotate((int)(speed * speedMod));
         }
         if(turningLeft) 
         {
-            rotate((int)(speed * -2));
+            rotate((int)(speed * -speedMod));
         }
         if(shoot) 
         {
@@ -163,8 +159,7 @@ public class Ship extends Polygon implements KeyListener
 		mustRelease = false;
 		shots = new ArrayList<Bullet>();
 		colorPosition = 0;
-		shipColor = 0;
-		rotation = startingRotation;
+		rotation = type.startingRotation;
 	}
 	
 	public ArrayList<Bullet> getBullets()
@@ -218,10 +213,12 @@ public class Ship extends Polygon implements KeyListener
 				if(AsteroidsControl.paused)
 				{
 					AsteroidsControl.paused = false;
+					AsteroidsControl.move = true;
 				}
 				else
 				{
 					AsteroidsControl.paused = true;
+					AsteroidsControl.move = false;
 				}
 			}
 		}
@@ -236,6 +233,7 @@ public class Ship extends Polygon implements KeyListener
 				else 
 				{
 					AsteroidsControl.paused = true;
+					AsteroidsControl.move = false;
 					int dialogResult = AsteroidsControl.confirmationMessage("Abandon game and return to menu?", "Exit game?");
 					if(dialogResult == JOptionPane.OK_OPTION)
 					{

@@ -2,7 +2,7 @@
  *	@author Ariana Fairbanks
  */
 
-package model_game;
+package model_objects;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -51,6 +51,10 @@ public class Asteroid extends Polygon
 	{
 		position.x += speed * Math.cos(Math.toRadians(rotation));
 		position.y += speed * Math.sin(Math.toRadians(rotation));
+	}
+	
+	public void moveInBounds()
+	{
 		int screenWidth = AsteroidsControl.SCREEN_WIDTH;
 		int screenHeight = AsteroidsControl.SCREEN_HEIGHT;
 		if(position.x > screenWidth + maxWidth) 
@@ -70,12 +74,24 @@ public class Asteroid extends Polygon
 		{
 			position.y += screenHeight + (1.5 * maxWidth);
 		}
-		
+	}
+	
+	public boolean outOfBounds()
+	{
+		boolean result = false;
+		int screenWidth = AsteroidsControl.SCREEN_WIDTH;
+		int screenHeight = AsteroidsControl.SCREEN_HEIGHT;
+		if((position.x > screenWidth + maxWidth) || (position.x + maxWidth < 0) || 
+				(position.y > screenHeight + maxWidth) || (position.y + maxWidth < 0))
+		{
+			result = true;
+		}
+		return result;
 	}
 
-	public int hit()
+	public int hit(double damage)
 	{
-		health--;
+		health -= damage;
 		return health;
 	}
 	

@@ -2,7 +2,7 @@
  * @author Ariana Fairbanks
  */
 
-package model_game;
+package model_objects;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -14,7 +14,7 @@ import model_enum.BulletType;
 public class Bullet extends Circle 
 {
 	private double rotation;
-	private int speed;
+	private double speed;
 	private BulletType type;
 
 	public Bullet(Point center, double rotation, BulletType type) 

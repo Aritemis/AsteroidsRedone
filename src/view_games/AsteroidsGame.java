@@ -16,13 +16,14 @@ import javax.swing.SpringLayout;
 import javax.swing.Timer;
 import control.AsteroidsControl;
 import model_abstracts.Point;
+import model_enum.BulletType;
 import model_enum.ShipType;
 import model_enum.StarType;
 import model_enum.States;
-import model_game.Asteroid;
-import model_game.Bullet;
-import model_game.Ship;
-import model_game.Star;
+import model_objects.Asteroid;
+import model_objects.Bullet;
+import model_objects.Ship;
+import model_objects.Star;
 import view.Animation;
 import view.AsteroidsFrame;
 import view_images.Images;
@@ -43,13 +44,16 @@ public class AsteroidsGame extends JPanel implements Animation
 	protected AsteroidsFrame frame;
 	protected Point shipPosition;
 	protected Color bulletColor;
+	protected ShipType shipType;
+	protected BulletType bullets;
 	
+	protected boolean recurringAsteroids;
 	protected boolean collide;
 	protected int score;
 	protected final int baseScore;
 	protected final int timerCount;
 
-	public AsteroidsGame(AsteroidsControl base, ShipType shipType)
+	public AsteroidsGame(AsteroidsControl base, ShipType shipType, BulletType bullets, boolean recurringAsteroids)
 	{
 		this.base = base;
 		frame = base.getFrame();
@@ -66,6 +70,9 @@ public class AsteroidsGame extends JPanel implements Animation
 		shipPosition = new Point(AsteroidsControl.SCREEN_WIDTH / 2, AsteroidsControl.SCREEN_HEIGHT / 2);
 		ship = new Ship(shipPosition, shipType);
 		this.addKeyListener(ship);
+		this.shipType = shipType;
+		this.bullets = bullets;
+		this.recurringAsteroids = recurringAsteroids;
 		
 		setUpLayout();
 		setUpTimers();
@@ -114,9 +121,22 @@ public class AsteroidsGame extends JPanel implements Animation
 		List<Bullet> shots = ship.getBullets();
 		List<Bullet> removeList = new ArrayList<Bullet>();
 		List<Asteroid> splodePlz = new ArrayList<Asteroid>();
+		List<Asteroid> outOfBounds = new ArrayList<Asteroid>();
 		for (Asteroid asteroid : asteroidList)
 		{
 			asteroid.move();
+			if(recurringAsteroids)
+			{
+				asteroid.moveInBounds();
+			}
+			else
+			{
+				if(asteroid.outOfBounds())
+				{
+					outOfBounds.add(asteroid);
+				}
+			}
+			
 			if(asteroid.collision(ship))
 			{
 				collideCount = 40;
@@ -132,7 +152,7 @@ public class AsteroidsGame extends JPanel implements Animation
 			{
 				if(asteroid.contains(shot.getCenter()))
 				{
-					if(asteroid.hit() < 1)
+					if(asteroid.hit(bullets.damage) < 1)
 					{
 						splodePlz.add(asteroid);
 					}
@@ -145,6 +165,11 @@ public class AsteroidsGame extends JPanel implements Animation
 		{
 			asteroidList.remove(asteroid);
 			score += asteroid.getScore();
+		}
+		
+		for(Asteroid asteroid : outOfBounds)
+		{
+			asteroidList.remove(asteroid);
 		}
 		
 		for(Bullet shot: shots)

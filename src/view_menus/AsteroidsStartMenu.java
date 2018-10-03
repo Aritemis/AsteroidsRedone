@@ -10,7 +10,7 @@ import javax.swing.Timer;
 import control.AsteroidsControl;
 import model_enum.StarType;
 import model_enum.States;
-import model_game.Star;
+import model_objects.Star;
 import view.Animation;
 
 import java.awt.GridBagLayout;

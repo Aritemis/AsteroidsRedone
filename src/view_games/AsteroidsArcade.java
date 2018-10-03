@@ -16,13 +16,14 @@ import javax.swing.SpringLayout;
 import javax.swing.Timer;
 import control.AsteroidsControl;
 import model_abstracts.Point;
+import model_enum.BulletType;
 import model_enum.ShipType;
 import model_enum.StarType;
 import model_enum.States;
-import model_game.Asteroid;
-import model_game.Bullet;
-import model_game.Ship;
-import model_game.Star;
+import model_objects.Asteroid;
+import model_objects.Bullet;
+import model_objects.Ship;
+import model_objects.Star;
 import view.Animation;
 import view.AsteroidsFrame;
 import view_images.Images;
@@ -35,7 +36,7 @@ public class AsteroidsArcade extends AsteroidsGame
 
 	public AsteroidsArcade(AsteroidsControl base)
 	{
-		super(base, ShipType.STANDARD);
+		super(base, ShipType.STANDARD, BulletType.STANDARD, true);
 		level = 0;
 		clearedLevel = false;
 		setUpLevel();

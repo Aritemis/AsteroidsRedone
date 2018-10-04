@@ -17,6 +17,7 @@ import model_abstracts.Point;
 import model_abstracts.Polygon;
 import model_enum.BulletType;
 import model_enum.ShipType;
+import view.ColorScheme;
 
 public class Ship extends Polygon implements KeyListener
 {
@@ -28,12 +29,8 @@ public class Ship extends Polygon implements KeyListener
 	private boolean shoot;
 	private boolean mustRelease;
 	private ArrayList<Bullet> shots;
-	private int colorPosition;
-	private int colorPosition2;
 	private int speedMod;
 	private ShipType type;
-	private Color lineColor;
-	private Color fillColor;
 
 	public Ship(Point inPosition, ShipType type)
 	{
@@ -55,48 +52,10 @@ public class Ship extends Polygon implements KeyListener
 			xValues[i] = (int) points[i].x;
 			yValues[i] = (int) points[i].y;
 		}
-		brush.setColor(fillColor);
+		brush.setColor(ColorScheme.shipFill);
 		brush.fillPolygon(xValues, yValues, npts);
-		brush.setColor(lineColor);
+		brush.setColor(ColorScheme.shipLine);
 		brush.drawPolygon(xValues, yValues, npts);
-	}
-
-	public Color rainbow()
-	{
-		switch(colorPosition)
-		{
-			case 0:
-				lineColor = AsteroidsControl.colors.shipNLine1;
-				fillColor = AsteroidsControl.colors.shipNFill1;
-				colorPosition++;
-				break;
-				
-			case 1: 
-				lineColor = AsteroidsControl.colors.shipNLine2;
-				fillColor = AsteroidsControl.colors.shipNFill2;
-				colorPosition = 0;
-				break;
-		}
-		return lineColor;
-	}
-	
-	public Color danger()
-	{
-		switch(colorPosition2)
-		{
-			case 0:
-				lineColor = AsteroidsControl.colors.shipDLine1;
-				fillColor = AsteroidsControl.colors.shipDFill1;
-				colorPosition2++;
-				break;
-				
-			case 1: 
-				lineColor = AsteroidsControl.colors.shipDLine2;
-				fillColor = AsteroidsControl.colors.shipDFill2;
-				colorPosition2 = 0;
-				break;
-		}
-		return lineColor;
 	}
 	
 	public void move() 
@@ -158,7 +117,6 @@ public class Ship extends Polygon implements KeyListener
 		shoot = false;
 		mustRelease = false;
 		shots = new ArrayList<Bullet>();
-		colorPosition = 0;
 		rotation = type.startingRotation;
 	}
 	

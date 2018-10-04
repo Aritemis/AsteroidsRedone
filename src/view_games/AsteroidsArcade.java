@@ -26,6 +26,7 @@ import model_objects.Ship;
 import model_objects.Star;
 import view.Animation;
 import view.AsteroidsFrame;
+import view.ColorScheme;
 import view_images.Images;
 
 public class AsteroidsArcade extends AsteroidsGame
@@ -118,10 +119,10 @@ public class AsteroidsArcade extends AsteroidsGame
 			{
 				if(!AsteroidsControl.paused)
 				{
-					bulletColor = ship.rainbow();
+					ColorScheme.normalColor();
 					if(collide)
 					{
-						bulletColor = ship.danger();
+						ColorScheme.damagedColor();
 					}
 				}
 				if(AsteroidsControl.move)
@@ -132,7 +133,7 @@ public class AsteroidsArcade extends AsteroidsGame
 				}
 				super.paint(brush);
 				paintStars(brush);
-				paintAsteroidsAndBullets(brush, bulletColor);
+				paintAsteroidsAndBullets(brush);
 				paintWords(brush);
 				paintShip(brush);
 				if(AsteroidsControl.paused)

@@ -43,7 +43,6 @@ public class AsteroidsGame extends JPanel implements Animation
 	protected ActionListener repainter;
 	protected AsteroidsFrame frame;
 	protected Point shipPosition;
-	protected Color bulletColor;
 	protected ShipType shipType;
 	protected BulletType bullets;
 	
@@ -195,7 +194,7 @@ public class AsteroidsGame extends JPanel implements Animation
 		}
 	}
 	
-	protected void paintAsteroidsAndBullets(Graphics brush, Color bulletColor)
+	protected void paintAsteroidsAndBullets(Graphics brush)
 	{
 		List<Bullet> shots = ship.getBullets();
 		for (Asteroid asteroid : asteroidList)
@@ -204,7 +203,7 @@ public class AsteroidsGame extends JPanel implements Animation
 		}
 		for(Bullet shot: shots)
 		{
-			shot.paint(brush, bulletColor);
+			shot.paint(brush);
 		}
 	}
 	

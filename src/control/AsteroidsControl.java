@@ -27,16 +27,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import model.HighScore;
-import model_abstracts.Point;
-import model_enum.AsteroidType;
 import model_enum.BulletType;
 import model_enum.ShipType;
-import model_enum.StarType;
 import model_enum.States;
-import model_objects.Asteroid;
-import model_objects.Star;
 import view.AsteroidsFrame;
-import view.ColorPreset;
+import view.ColorScheme;
 import view_images.Images;
 
 public class AsteroidsControl
@@ -55,9 +50,6 @@ public class AsteroidsControl
 	
 	public static JPanel messagePanel;
 	public Images images;
-	
-	
-	public static ColorPreset colors = ColorPreset.OBLUE; 
 	
 	private static byte campaignLevel;
 	private static int credits;
@@ -87,6 +79,7 @@ public class AsteroidsControl
 		messagePanel = new JPanel();
 		images = new Images();
 		frame = new AsteroidsFrame(this);
+		ColorScheme.setColorDefaults();
 	}
 	
 	public void resetLocalData()

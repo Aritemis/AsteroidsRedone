@@ -10,6 +10,7 @@ import control.AsteroidsControl;
 import model_abstracts.Circle;
 import model_abstracts.Point;
 import model_enum.BulletType;
+import view.ColorScheme;
 
 public class Bullet extends Circle 
 {
@@ -25,10 +26,10 @@ public class Bullet extends Circle
 		this.type = type;
 	}
 
-	public void paint(Graphics brush, Color color) 
+	public void paint(Graphics brush) 
 	{
 		//switch case type?
-		brush.setColor(color);
+		brush.setColor(ColorScheme.bullet);
 		brush.fillOval((int)center.x, (int)center.y, radius, radius);
 	}
 

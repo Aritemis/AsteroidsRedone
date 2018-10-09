@@ -19,7 +19,6 @@ import model_abstracts.Point;
 import model_enum.BulletType;
 import model_enum.ShipType;
 import model_enum.StarType;
-import model_enum.States;
 import model_objects.Asteroid;
 import model_objects.Bullet;
 import model_objects.Ship;
@@ -27,6 +26,7 @@ import model_objects.Star;
 import view.Animation;
 import view.AsteroidsFrame;
 import view.ColorScheme;
+import view.ViewPanel;
 import view_images.Images;
 
 public class AsteroidsArcade extends AsteroidsGame
@@ -92,7 +92,7 @@ public class AsteroidsArcade extends AsteroidsGame
 		{
 			stopTimers();
 			base.resetGameVariables();
-			base.changeState(States.MENU);
+			base.changeState(ViewPanel.MENU);
 		}
 		else if(AsteroidsControl.limbo)
 		{

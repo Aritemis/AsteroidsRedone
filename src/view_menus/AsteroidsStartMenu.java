@@ -9,9 +9,9 @@ import javax.swing.Timer;
 
 import control.AsteroidsControl;
 import model_enum.StarType;
-import model_enum.States;
 import model_objects.Star;
 import view.Animation;
+import view.ViewPanel;
 
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -31,7 +31,8 @@ public class AsteroidsStartMenu extends JPanel implements Animation
 	private static final long serialVersionUID = 3738683657239431767L;
 	private AsteroidsControl base;
 	private JButton arcadeModeButton;
-	private JButton userModeButton;
+	private JButton campaignModeButton;
+	private JButton optionsButton;
 	private ArrayList<Star> stars;
 	private Timer repaintTimer;
 	private ActionListener repainter;
@@ -41,10 +42,9 @@ public class AsteroidsStartMenu extends JPanel implements Animation
 	{
 		this.base = base;
 		arcadeModeButton = new JButton("ARCADE");
-		userModeButton = new JButton("USER MODE");
-		stars = Star.createStars(new ArrayList<Star>(), 100, StarType.FAST);
-		stars = Star.createStars(stars, 50, StarType.STANDARD);
-		stars = Star.createStars(stars, 25, StarType.SLOW);
+		campaignModeButton = new JButton("CAMPAIGN");
+		optionsButton = new JButton("OPTIONS");
+		stars = Star.createDefaultStars();
 		starRotation = 0;
 		
 		setUpLayout();
@@ -59,9 +59,9 @@ public class AsteroidsStartMenu extends JPanel implements Animation
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 20, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 20, 0, 20, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		JLabel lblTitle = new JLabel("ASTEROIDS");
@@ -78,24 +78,36 @@ public class AsteroidsStartMenu extends JPanel implements Animation
 		arcadeModeButton.setFont(new Font("Monospaced", Font.BOLD, 30));
 		arcadeModeButton.setForeground(Color.BLUE);
 		arcadeModeButton.setContentAreaFilled(false);
-		GridBagConstraints gbc_arcadeGameButton = new GridBagConstraints();
-		gbc_arcadeGameButton.fill = GridBagConstraints.HORIZONTAL;
-		gbc_arcadeGameButton.insets = new Insets(0, 0, 5, 5);
-		gbc_arcadeGameButton.gridx = 1;
-		gbc_arcadeGameButton.gridy = 6;
-		add(arcadeModeButton, gbc_arcadeGameButton);
+		GridBagConstraints gbc_arcadeModeButton = new GridBagConstraints();
+		gbc_arcadeModeButton.fill = GridBagConstraints.HORIZONTAL;
+		gbc_arcadeModeButton.insets = new Insets(0, 0, 5, 5);
+		gbc_arcadeModeButton.gridx = 1;
+		gbc_arcadeModeButton.gridy = 6;
+		add(arcadeModeButton, gbc_arcadeModeButton);
 		
-		userModeButton.setBorderPainted(false);
-		userModeButton.setFocusPainted(false);
-		userModeButton.setFont(new Font("Monospaced", Font.BOLD, 30));
-		userModeButton.setForeground(Color.BLUE);
-		userModeButton.setContentAreaFilled(false);
-		GridBagConstraints gbc_userModeButton = new GridBagConstraints();
-		gbc_userModeButton.fill = GridBagConstraints.HORIZONTAL;
-		gbc_userModeButton.insets = new Insets(0, 0, 5, 5);
-		gbc_userModeButton.gridx = 1;
-		gbc_userModeButton.gridy = 8;
-		add(userModeButton, gbc_userModeButton);
+		campaignModeButton.setBorderPainted(false);
+		campaignModeButton.setFocusPainted(false);
+		campaignModeButton.setFont(new Font("Monospaced", Font.BOLD, 30));
+		campaignModeButton.setForeground(Color.BLUE);
+		campaignModeButton.setContentAreaFilled(false);
+		GridBagConstraints gbc_campaignModeButton = new GridBagConstraints();
+		gbc_campaignModeButton.fill = GridBagConstraints.HORIZONTAL;
+		gbc_campaignModeButton.insets = new Insets(0, 0, 5, 5);
+		gbc_campaignModeButton.gridx = 1;
+		gbc_campaignModeButton.gridy = 8;
+		add(campaignModeButton, gbc_campaignModeButton);
+		
+		optionsButton.setBorderPainted(false);
+		optionsButton.setFocusPainted(false);
+		optionsButton.setFont(new Font("Monospaced", Font.BOLD, 30));
+		optionsButton.setForeground(Color.BLUE);
+		optionsButton.setContentAreaFilled(false);
+		GridBagConstraints gbc_optionsButton = new GridBagConstraints();
+		gbc_optionsButton.fill = GridBagConstraints.HORIZONTAL;
+		gbc_optionsButton.insets = new Insets(0, 0, 5, 5);
+		gbc_optionsButton.gridx = 1;
+		gbc_optionsButton.gridy = 10;
+		add(optionsButton, gbc_optionsButton);
 	}
 	
 	public void setUpListeners()
@@ -105,11 +117,11 @@ public class AsteroidsStartMenu extends JPanel implements Animation
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				base.changeState(States.ARCADE);
+				base.changeState(ViewPanel.ARCADE);
 			}
 		});
 		
-		userModeButton.addActionListener(new ActionListener()
+		campaignModeButton.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)

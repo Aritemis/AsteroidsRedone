@@ -83,4 +83,12 @@ public class Star extends Circle
 		return stars;
 	 }
 
+	public static ArrayList<Star> createDefaultStars()
+	{
+		ArrayList<Star> stars;
+		stars = Star.createStars(new ArrayList<Star>(), 100, StarType.FAST);
+		stars = Star.createStars(stars, 50, StarType.STANDARD);
+		stars = Star.createStars(stars, 25, StarType.SLOW);
+		return stars;
+	}
 }

@@ -4,22 +4,14 @@
 
 package control;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonReader;
-import javax.json.JsonValue;
-import javax.json.stream.JsonParser;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,18 +21,18 @@ import java.util.Map;
 import model.HighScore;
 import model_enum.BulletType;
 import model_enum.ShipType;
-import model_enum.States;
 import view.AsteroidsFrame;
 import view.ColorScheme;
+import view.ViewPanel;
 import view_images.Images;
 
 public class AsteroidsControl
 {
 	public static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 	
-	public static final int SCREEN_WIDTH = 800;
-	public static final int SCREEN_HEIGHT = 600;
 	public static final int refreshTime = 10;
+	public static int SCREEN_WIDTH = 800;
+	public static int SCREEN_HEIGHT = 600;
 
 	public static boolean paused;
 	public static boolean limbo; //continue?
@@ -51,28 +43,27 @@ public class AsteroidsControl
 	public static JPanel messagePanel;
 	public Images images;
 	
-	private static byte campaignLevel;
-	private static int credits;
-	private static ShipType currentShip;
-	private static BulletType currentBullet;
-	private static Integer[] shipUpgrades;
-	private static Integer[] bulletUpgrades;
-	private static HighScore[] highScores;
+	private int credits;
+	private ShipType currentShip;
+	private BulletType currentBullet;
+	private Integer[] shipUpgrades;
+	private Integer[] bulletUpgrades;
+	private HighScore[] highScores;
 	
 	
 	
 	private AsteroidsFrame frame;
-	private States state;
+	private ViewPanel state;
 	
 	private File dataFile;
-	private JsonObject data;
-	private JsonReader parser;
-	private FileReader fileReader;
-	private FileWriter fileWriter;
+	private FileInputStream fileReader;
+	private ObjectInputStream objectReader;
+	private FileOutputStream fileWriter;
+	private ObjectOutputStream objectWriter;
 	
 	public void start()
 	{
-		dataFile = new File(System.getProperty("user.home") + "/.AsteroidsData.json");
+		dataFile = new File(System.getProperty("user.home") + "/.AsteroidsData");
 		resetLocalData();
 		loadData();
 		resetGameVariables();
@@ -84,7 +75,6 @@ public class AsteroidsControl
 	
 	public void resetLocalData()
 	{
-		campaignLevel = 0;
 		credits = 0;
 		currentShip = ShipType.STANDARD;
 		currentBullet = BulletType.STANDARD;
@@ -110,11 +100,10 @@ public class AsteroidsControl
 		move = true;
 	}
 	
-	public void loadData()
+	private void loadData()
 	{
 		if(dataFile.exists())
 		{
-			System.out.println("yes");
 			readData();
 		}
 		else
@@ -123,18 +112,19 @@ public class AsteroidsControl
 		}
 	}
 	
-	public void readData()
+	private void readData()
 	{
 		try
 		{
-			fileReader = new FileReader(dataFile);
-			parser = Json.createReader(fileReader);
-			data = parser.readObject();
-			parser.close();
+			fileReader = new FileInputStream(dataFile);
+			objectReader = new ObjectInputStream(fileReader);
+			AsteroidsSaveData saveData = (AsteroidsSaveData) objectReader.readObject();
+			objectReader.close();
 			fileReader.close();
-			printData();
+			updateLocalData(saveData);
+			System.out.println("Data Loaded");
 		} 
-		catch (IOException e)
+		catch (IOException | ClassNotFoundException e)
 		{
 			e.printStackTrace();
 		}
@@ -144,13 +134,11 @@ public class AsteroidsControl
 	{
 		try
 		{
-			updateJsonData();
-			if(dataFile.exists())
-			{ dataFile.delete(); }
-			dataFile.createNewFile();
-			fileWriter = new FileWriter(dataFile);
-			fileWriter.write(data.toString());
-            fileWriter.close();
+		    fileWriter = new FileOutputStream(dataFile);
+		    objectWriter = new ObjectOutputStream(fileWriter);
+		    objectWriter.writeObject(createSaveData());
+		    objectWriter.close();
+		    fileWriter.close();
 		} 
 		catch (IOException e)
 		{
@@ -159,54 +147,29 @@ public class AsteroidsControl
 		}
 	}
 	
-	public void printData()
+	private AsteroidsSaveData createSaveData()
 	{
-		System.out.println(data.toString());
+		AsteroidsSaveData saveData = new AsteroidsSaveData();
+		saveData.credits = credits;
+		saveData.currentShip = currentShip;
+		saveData.currentBullet = currentBullet;
+		saveData.shipUpgrades = shipUpgrades;
+		saveData.bulletUpgrades = bulletUpgrades;
+		saveData.highScores = highScores;
+		return saveData;
 	}
 	
-	public void updateJsonData()
+	private void updateLocalData(AsteroidsSaveData saveData)
 	{
-		JsonArray sUpgrades = Json.createArrayBuilder().build();
-		if(shipUpgrades.length > 0)
-		{
-			sUpgrades = Json.createArrayBuilder(Arrays.asList((Object[])shipUpgrades)).build();
-		}
-		JsonArray bUpgrades = Json.createArrayBuilder().build();
-		if(bulletUpgrades.length > 0)
-		{
-			bUpgrades = Json.createArrayBuilder(Arrays.asList(bulletUpgrades)).build();
-		}
-		//JsonArray hScores = Json.createArrayBuilder(Arrays.asList(bulletUpgrades)).build();
-		data = Json.createObjectBuilder()
-				.add("campaignLevel", campaignLevel)
-				.add("credits", credits)
-				.add("currentShip", currentShip.ordinal())
-				.add("currentBullet", currentBullet.ordinal())
-				.add("shipUpgrades", sUpgrades)
-				.add("bulletUpgrades", bUpgrades)
-				//.add("highScores", hScores)
-				.build();
+		credits = saveData.credits;
+		currentShip = saveData.currentShip;
+		currentBullet = saveData.currentBullet;
+		shipUpgrades = saveData.shipUpgrades;
+		bulletUpgrades = saveData.bulletUpgrades;
+		highScores = saveData.highScores;
 	}
 	
-	public void updateLocalData()
-	{
-		campaignLevel = (byte) data.getInt("campaignLevel");
-		credits = data.getInt("credits");
-		currentShip = ShipType.values()[data.getInt("currentShip")];
-		currentBullet = BulletType.values()[data.getInt("currentBullet")];
-		JsonArray sUpgrades = data.getJsonArray("shipUpgrades");
-		for(int i = 0; i < sUpgrades.size(); i ++) 
-		{
-			shipUpgrades[i] = sUpgrades.getInt(i);
-		}
-		JsonArray bUpgrades = data.getJsonArray("bulletUpgrades");
-		for(int i = 0; i < bUpgrades.size(); i ++) 
-		{
-			bulletUpgrades[i] = bUpgrades.getInt(i);
-		}
-	}
-	
-	public void changeState(States state)
+	public void changeState(ViewPanel state)
 	{
 		this.state = state;
 		frame.changeViewState();
@@ -217,7 +180,7 @@ public class AsteroidsControl
 		return JOptionPane.showConfirmDialog(messagePanel, message, header, JOptionPane.OK_CANCEL_OPTION);
 	}
 	
-	public States getState()
+	public ViewPanel getState()
 	{
 		return state;
 	}

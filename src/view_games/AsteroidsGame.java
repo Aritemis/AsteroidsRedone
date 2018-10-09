@@ -19,13 +19,13 @@ import model_abstracts.Point;
 import model_enum.BulletType;
 import model_enum.ShipType;
 import model_enum.StarType;
-import model_enum.States;
 import model_objects.Asteroid;
 import model_objects.Bullet;
 import model_objects.Ship;
 import model_objects.Star;
 import view.Animation;
 import view.AsteroidsFrame;
+import view.ViewPanel;
 import view_images.Images;
 
 @SuppressWarnings("serial")
@@ -61,9 +61,7 @@ public class AsteroidsGame extends JPanel implements Animation
 		baseScore = 5;
 		timerCount = AsteroidsControl.refreshTime;
 		asteroidList = new ArrayList<Asteroid>();
-		stars = Star.createStars(new ArrayList<Star>(), 100, StarType.FAST);
-		stars = Star.createStars(stars, 50, StarType.STANDARD);
-		stars = Star.createStars(stars, 25, StarType.SLOW);
+		stars = Star.createDefaultStars();
 		this.setFocusable(true);
 		this.requestFocus();
 		shipPosition = new Point(AsteroidsControl.SCREEN_WIDTH / 2, AsteroidsControl.SCREEN_HEIGHT / 2);

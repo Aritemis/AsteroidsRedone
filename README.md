@@ -4,6 +4,7 @@ This is not the asteroids game I built for my CMPT202 class. That game was prett
 It currently stores all data locally and has no online features, but I ever have the resources for an online database I will probably change that.
 
 The finished version will have many features, including but not limited to..
+
     - Various Instructions
     - Arcade Mode
         - Increases in difficulty with higher levels.   (implemented, but needs new level clear graphics)

@@ -88,7 +88,7 @@ public class AsteroidsArcade extends AsteroidsGame
 	public void refresh()
 	{
 		
-		if(AsteroidsControl.move && !AsteroidsControl.menu && !AsteroidsControl.limbo && !asteroidList.isEmpty() && lives > 1)
+		if(AsteroidsControl.move && !AsteroidsControl.menu && !AsteroidsControl.limbo && !AsteroidsControl.reset && !asteroidList.isEmpty())
 		{
 			super.update();
 		}
@@ -113,7 +113,7 @@ public class AsteroidsArcade extends AsteroidsGame
 		{
 			if(asteroidList.isEmpty())
 			{
-				brush.drawImage(Images.win, 200, 200, frame);
+				brush.drawImage(Images.levelclear, 200, 200, frame);
 				brush.drawImage(Images.proceed, 215, 508, frame);
 				AsteroidsControl.limbo = true;
 				clearedLevel = true;
@@ -122,7 +122,7 @@ public class AsteroidsArcade extends AsteroidsGame
 			{
 				brush.setColor(Color.red);
 				brush.drawString("Lives Left: " + lives, 25, 25);
-				brush.drawImage(Images.lose, 200, 200, frame);
+				brush.drawImage(Images.gameover, 200, 200, frame);
 				brush.drawImage(Images.proceed, 215, 508, frame);
 				AsteroidsControl.limbo = true;
 			}

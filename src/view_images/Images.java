@@ -14,6 +14,8 @@ public class Images
 	public static BufferedImage any;
 	public static BufferedImage pause;
 	public static BufferedImage proceed;
+	public static BufferedImage gameover;
+	public static BufferedImage levelclear;
 	
 	public Images()
 	{
@@ -24,6 +26,8 @@ public class Images
 			any = ImageIO.read(this.getClass().getResourceAsStream("any.png"));
 			pause = ImageIO.read(this.getClass().getResourceAsStream("pause.png"));
 			proceed = ImageIO.read(this.getClass().getResourceAsStream("enter.png"));
+			gameover = ImageIO.read(this.getClass().getResourceAsStream("gameover.png"));
+			levelclear = ImageIO.read(this.getClass().getResourceAsStream("levelclear.png"));
 		} 
 		catch (Exception e) {}
 	}

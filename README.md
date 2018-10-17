@@ -7,7 +7,7 @@ The finished version will have many features, including but not limited to..
 
     - Various Instructions
     - Arcade Mode
-        - Increases in difficulty with higher levels.   (implemented, but needs new level clear graphics)
+        - Increases in difficulty with higher levels.   (implemented)
         - Has an arcade style high score board.     (partially implemented)
         - Maybe some bonus rounds every so many levels? Like Mappy. Or something like the fruit in Pacman. 
     - Story/Campaign Mode

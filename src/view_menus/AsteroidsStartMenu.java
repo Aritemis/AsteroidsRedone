@@ -28,7 +28,6 @@ import javax.swing.JLabel;
 
 public class AsteroidsStartMenu extends JPanel implements Animation
 {
-	private static final long serialVersionUID = 3738683657239431767L;
 	private AsteroidsControl base;
 	private JButton arcadeModeButton;
 	private JButton campaignModeButton;
@@ -127,6 +126,15 @@ public class AsteroidsStartMenu extends JPanel implements Animation
 			public void actionPerformed(ActionEvent e)
 			{
 				//base.changeState();
+			}
+		});
+		
+		optionsButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				base.changeState(ViewPanel.SETTINGS);
 			}
 		});
 	}

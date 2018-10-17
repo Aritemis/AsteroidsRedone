@@ -84,9 +84,20 @@ public class AsteroidsArcade extends AsteroidsGame
 		brush.drawString("Lives Left: " + lives, 25, 25);
 	}
 	
+	@Override 
+	public void refresh()
+	{
+		
+		if(AsteroidsControl.move && !AsteroidsControl.menu && !AsteroidsControl.limbo && !asteroidList.isEmpty() && lives > 1)
+		{
+			super.update();
+		}
+	}
+	
 	@Override
 	public void paint(Graphics brush) 
 	{
+		//super.paint(brush);
 		this.requestFocus();
 		if(AsteroidsControl.menu)
 		{
@@ -125,17 +136,11 @@ public class AsteroidsArcade extends AsteroidsGame
 						ColorScheme.damagedColor();
 					}
 				}
-				if(AsteroidsControl.move)
-				{
-					moveStars();
-					moveAsteroidsAndBullets();
-					ship.move();
-				}
 				super.paint(brush);
 				paintStars(brush);
 				paintAsteroidsAndBullets(brush);
-				paintWords(brush);
 				paintShip(brush);
+				paintWords(brush);
 				if(AsteroidsControl.paused)
 				{
 					brush.drawImage(Images.pause, 200, 200, frame);
@@ -144,6 +149,5 @@ public class AsteroidsArcade extends AsteroidsGame
 			}
 		}
 	}
-	
-	
+
 }

@@ -4,18 +4,15 @@
 
 package view;
 
-import java.awt.Frame;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import control.AsteroidsControl;
 import view_games.AsteroidsArcade;
+import view_menus.AsteroidsSettings;
 import view_menus.AsteroidsStartMenu;
 
 public class AsteroidsFrame extends JFrame
 {
-	
-	private static final long serialVersionUID = -2263772258599361367L;
 	private AsteroidsControl base;
 	private JPanel panel;
 	
@@ -57,6 +54,10 @@ public class AsteroidsFrame extends JFrame
 			case ARCADE:
 				panel.removeAll();
 				panel = new AsteroidsArcade(base);
+				break;
+			case SETTINGS:
+				panel.removeAll();
+				panel = new AsteroidsSettings(base);
 				break;
 			default:
 				System.out.println("Something went wrong when changing views.");

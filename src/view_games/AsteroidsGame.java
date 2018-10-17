@@ -40,7 +40,9 @@ public class AsteroidsGame extends JPanel implements Animation
 	protected int lives;
 	protected boolean invincible;
 	protected Timer repaintTimer;
+	protected Timer updateTimer;
 	protected ActionListener repainter;
+	protected ActionListener updater;
 	protected AsteroidsFrame frame;
 	protected Point shipPosition;
 	protected ShipType shipType;
@@ -59,7 +61,7 @@ public class AsteroidsGame extends JPanel implements Animation
 		theLayout = new SpringLayout();
 		score = 0;
 		baseScore = 5;
-		timerCount = AsteroidsControl.refreshTime;
+		timerCount = AsteroidsControl.repaintTime;
 		asteroidList = new ArrayList<Asteroid>();
 		stars = Star.createDefaultStars();
 		this.setFocusable(true);
@@ -91,18 +93,56 @@ public class AsteroidsGame extends JPanel implements Animation
 				repaint();
 			}
 		};
-		repaintTimer = new Timer(timerCount, repainter);
+		repaintTimer = new Timer(AsteroidsControl.repaintTime, repainter);
 		repaintTimer.setRepeats(true);
+		
+		updater = new ActionListener()
+		{
+			public void actionPerformed(ActionEvent event)
+			{
+				refresh();
+			}
+		};
+		updateTimer = new Timer(AsteroidsControl.updateTime, updater);
+		updateTimer.setRepeats(true);
 	}
 	
 	public void startTimers()
 	{
 		repaintTimer.start();
+		updateTimer.start();
 	}
 
 	public void stopTimers()
 	{
 		repaintTimer.stop();
+		updateTimer.stop();
+	}
+	
+	protected void refresh()
+	{
+		
+	}
+	
+	protected void update()
+	{
+		updateCollide();
+		moveStars();
+		moveAsteroidsAndBullets();
+		ship.move();
+	}
+	
+	protected void updateCollide()
+	{
+		if(collide)
+		{
+			collideCount--;
+			if(collideCount == 0)
+			{
+				collide = false;
+				invincible = false;
+			}
+		}
 	}
 	
 	protected void moveStars()
@@ -208,14 +248,6 @@ public class AsteroidsGame extends JPanel implements Animation
 	protected void paintShip(Graphics brush)
 	{
 		ship.paint(brush);
-		if(collide)
-		{
-			collideCount--;
-			if(collideCount == 0)
-			{
-				collide = false;
-				invincible = false;
-			}
-		}
 	}
+	
 }

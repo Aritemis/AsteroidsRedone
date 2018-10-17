@@ -30,7 +30,8 @@ public class AsteroidsControl
 {
 	public static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 	
-	public static final int refreshTime = 10;
+	public static final int updateTime = 10;
+	public static int repaintTime = 10;
 	public static int SCREEN_WIDTH = 800;
 	public static int SCREEN_HEIGHT = 600;
 

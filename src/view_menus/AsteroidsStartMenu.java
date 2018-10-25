@@ -181,5 +181,4 @@ public class AsteroidsStartMenu extends JPanel implements Animation
 		super.paint(g);
 		refreshStars(g);
 	}
-	
 }

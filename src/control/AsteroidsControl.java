@@ -6,6 +6,12 @@ package control;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.plaf.ColorUIResource;
+
+import java.awt.Color;
+import java.awt.Insets;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -13,11 +19,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 import model.HighScore;
 import model_enum.BulletType;
 import model_enum.ShipType;
@@ -30,7 +31,7 @@ public class AsteroidsControl
 {
 	public static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 	
-	public static final int updateTime = 10;
+	public static final int updateTime = 15;
 	public static int repaintTime = 10;
 	public static int SCREEN_WIDTH = 800;
 	public static int SCREEN_HEIGHT = 600;
@@ -72,6 +73,27 @@ public class AsteroidsControl
 		images = new Images();
 		frame = new AsteroidsFrame(this);
 		ColorScheme.setColorDefaults();
+		setUI();
+	}
+	
+	private void setUI()
+	{
+		try
+		{
+			UIManager.setLookAndFeel("view.AsteroidsLookAndFeel");
+		}
+		catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e)
+		{
+			e.printStackTrace();
+		}
+		UIManager.put("Panel.background", Color.black);
+		UIManager.put("OptionPane.messageBackground", Color.black);
+		UIManager.put("OptionPane.background", Color.black);
+	
+		//UIManager.put("OptionPane.messageForeground", Color.white);
+		UIManager.put("Panel.foreground", Color.white);
+		UIManager.put("Button.background", Color.black);
+		UIManager.put("Button.foreground", Color.white);
 	}
 	
 	public void resetLocalData()
@@ -178,7 +200,9 @@ public class AsteroidsControl
 	
 	public static int confirmationMessage(String message, String header)
 	{
-		return JOptionPane.showConfirmDialog(messagePanel, message, header, JOptionPane.OK_CANCEL_OPTION);
+		int result = JOptionPane.showConfirmDialog(messagePanel, message, header, JOptionPane.OK_CANCEL_OPTION);
+		
+		return result;
 	}
 	
 	public ViewPanel getState()

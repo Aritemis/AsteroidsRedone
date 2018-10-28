@@ -8,7 +8,7 @@ import java.awt.Color;
 
 public enum AsteroidType
 {
-	STANDARD (40, 50, 1, 1, 1, Color.white, Color.darkGray);
+	STANDARD (15, 12, 1, 1, 1, Color.white, Color.black);
 	
 	public final int minWidth;
 	public final int maxWidth;

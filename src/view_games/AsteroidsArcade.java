@@ -98,8 +98,8 @@ public class AsteroidsArcade extends AsteroidsGame
 		{
 			if(asteroidList.isEmpty())
 			{
-				brush.drawImage(Images.levelclear, 200, 200, frame);
-				brush.drawImage(Images.proceed, 215, 508, frame);
+				brush.drawImage(Images.levelclear, (AsteroidsControl.screenWidth / 4), (AsteroidsControl.screenHeight / 3), frame);
+				brush.drawImage(Images.proceed, (int)(AsteroidsControl.screenWidth / 3.7), (int)(AsteroidsControl.screenHeight / 1.2), frame);
 				AsteroidsControl.limbo = true;
 				clearedLevel = true;
 			}
@@ -107,8 +107,8 @@ public class AsteroidsArcade extends AsteroidsGame
 			{
 				brush.setColor(Color.red);
 				brush.drawString("Lives Left: " + lives, 25, 25);
-				brush.drawImage(Images.gameover, 200, 200, frame);
-				brush.drawImage(Images.proceed, 215, 508, frame);
+				brush.drawImage(Images.gameover, (AsteroidsControl.screenWidth / 4), (AsteroidsControl.screenHeight / 3), frame);
+				brush.drawImage(Images.proceed, (int)(AsteroidsControl.screenWidth / 3.7), (int)(AsteroidsControl.screenHeight / 1.2), frame);
 				AsteroidsControl.limbo = true;
 			}
 			else

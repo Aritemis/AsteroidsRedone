@@ -4,9 +4,14 @@
 
 package view;
 
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.Toolkit;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import control.AsteroidsControl;
+import model.ShipShapes;
 import view_games.AsteroidsArcade;
 import view_menus.AsteroidsSettings;
 import view_menus.AsteroidsStartMenu;
@@ -20,8 +25,15 @@ public class AsteroidsFrame extends JFrame
 	{
 		this.base = base;
 		this.panel = new AsteroidsStartMenu(base);
-		setSize(AsteroidsControl.SCREEN_WIDTH, AsteroidsControl.SCREEN_HEIGHT);
-		//setExtendedState(Frame.MAXIMIZED_BOTH);
+		if(AsteroidsControl.fullscreen)
+		{
+			fullscreen();
+		}
+		else
+		{
+			changeSize();
+		}
+		ShipShapes.redoShipShapes();
 		setVisible(true);
 		setResizable(false);
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -66,6 +78,21 @@ public class AsteroidsFrame extends JFrame
 		setContentPane(panel);
 		panel.revalidate();
 		panel.repaint();
+	}
+	
+	public void fullscreen()
+	{
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		AsteroidsControl.fullscreen = true;
+		AsteroidsControl.screenWidth = (int) screenSize.getWidth();
+		AsteroidsControl.screenHeight = (int) screenSize.getHeight();
+		changeSize();
+	}
+	
+	private void changeSize()
+	{
+		setSize(AsteroidsControl.screenWidth, AsteroidsControl.screenHeight);
+		ShipShapes.redoShipShapes();
 	}
 
 }

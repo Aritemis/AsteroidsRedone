@@ -20,5 +20,7 @@ public class AsteroidsSaveData implements Serializable
 	Integer[] shipUpgrades;
 	Integer[] bulletUpgrades;
 	HighScore[] highScores;
-
+	boolean fullscreen;
+	int screenWidth;
+	int screenHeight;
 }

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import control.AsteroidsControl;
+import model.ShipShapes;
 import model_abstracts.Point;
 import model_abstracts.Polygon;
 import model_enum.BulletType;
@@ -34,7 +35,7 @@ public class Ship extends Polygon implements KeyListener
 
 	public Ship(Point inPosition, ShipType type)
 	{
-		super(type.shipShape, inPosition.clone(), type.startingRotation);
+		super(ShipShapes.shipShapes.get(type.shipShape), inPosition.clone(), type.startingRotation);
 		this.speed = type.speed;
 		this.type = type;
 		speedMod = 2;
@@ -62,21 +63,21 @@ public class Ship extends Polygon implements KeyListener
 	{	
         if(forward) 
         {
-            position.x += speed * speedMod * Math.cos(Math.toRadians(rotation));
-            position.y += speed * speedMod * Math.sin(Math.toRadians(rotation));
+            position.x += speed * speedMod * (AsteroidsControl.screenHeight / 500) * Math.cos(Math.toRadians(rotation));
+            position.y += speed * speedMod * (AsteroidsControl.screenHeight / 500) * Math.sin(Math.toRadians(rotation));
         }
         if(backward) 
         {
-            position.x -= speed * speedMod * Math.cos(Math.toRadians(rotation));
-            position.y -= speed * speedMod * Math.sin(Math.toRadians(rotation));
+            position.x -= speed * speedMod * (AsteroidsControl.screenHeight / 500) * Math.cos(Math.toRadians(rotation));
+            position.y -= speed * speedMod * (AsteroidsControl.screenHeight / 500) * Math.sin(Math.toRadians(rotation));
         }
         if(turningRight) 
         {
-            rotate((int)(speed * speedMod));
+            rotate((int)(speed * speedMod * (AsteroidsControl.screenHeight / 500)));
         }
         if(turningLeft) 
         {
-            rotate((int)(speed * -speedMod));
+            rotate((int)(speed * -speedMod * (AsteroidsControl.screenHeight / 500)));
         }
         if(shoot) 
         {
@@ -90,21 +91,21 @@ public class Ship extends Polygon implements KeyListener
             shoot = false;
         }
 
-		if(position.x > AsteroidsControl.SCREEN_WIDTH) 
+		if(position.x > AsteroidsControl.screenWidth) 
 		{
-			position.x -= AsteroidsControl.SCREEN_WIDTH;
+			position.x -= AsteroidsControl.screenWidth;
 		} 
 		else if(position.x < 0)
 		{
-			position.x += AsteroidsControl.SCREEN_WIDTH;
+			position.x += AsteroidsControl.screenWidth;
 		}
-		if(position.y > AsteroidsControl.SCREEN_HEIGHT) 
+		if(position.y > AsteroidsControl.screenHeight) 
 		{
-			position.y -= AsteroidsControl.SCREEN_HEIGHT;
+			position.y -= AsteroidsControl.screenHeight;
 		} 
 		else if(position.y < 0) 
 		{
-			position.y += AsteroidsControl.SCREEN_HEIGHT;
+			position.y += AsteroidsControl.screenHeight;
 		}
 	}
 	

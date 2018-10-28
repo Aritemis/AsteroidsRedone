@@ -6,7 +6,7 @@ package model_enum;
 
 public enum BulletType
 {
-	STANDARD(1, 1, 1);
+	STANDARD(1, 1, 120);
 	
 	public final double speed;
 	public final double damage;

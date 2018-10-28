@@ -57,8 +57,8 @@ public class Asteroid extends Polygon
 	
 	public void moveInBounds()
 	{
-		int screenWidth = AsteroidsControl.SCREEN_WIDTH;
-		int screenHeight = AsteroidsControl.SCREEN_HEIGHT;
+		int screenWidth = AsteroidsControl.screenWidth;
+		int screenHeight = AsteroidsControl.screenHeight;
 		if(position.x > screenWidth + maxWidth) 
 		{
 			position.x -= screenWidth + (maxWidth);
@@ -81,8 +81,8 @@ public class Asteroid extends Polygon
 	public boolean outOfBounds()
 	{
 		boolean result = false;
-		int screenWidth = AsteroidsControl.SCREEN_WIDTH;
-		int screenHeight = AsteroidsControl.SCREEN_HEIGHT;
+		int screenWidth = AsteroidsControl.screenWidth;
+		int screenHeight = AsteroidsControl.screenHeight;
 		if((position.x > screenWidth + maxWidth) || (position.x + maxWidth < 0) || 
 				(position.y > screenHeight + maxWidth) || (position.y + maxWidth < 0))
 		{
@@ -110,7 +110,7 @@ public class Asteroid extends Polygon
 	public static ArrayList<Asteroid> generateArcadeAsteroids(ArrayList<Asteroid> asteroids, int level, int baseScore)
 	{
 		int totalAsteroids = 5 + (level / 5);
-		int speedModifier = 1 + (level / 10);
+		int speedModifier = 1 + (level / 10) * (AsteroidsControl.screenWidth / 500);
 		int healthModifier = 1 + (level / 15);
 		asteroids = createAsteroids(asteroids, totalAsteroids, baseScore, speedModifier, healthModifier, AsteroidType.STANDARD);
 		return asteroids;
@@ -122,7 +122,7 @@ public class Asteroid extends Polygon
 		{
 			// Create random asteroids by sampling points on a circle
 			// Find the radius first.
-			int radius = ThreadLocalRandom.current().nextInt(type.minWidth, type.maxWidth + 1);
+			int radius = ThreadLocalRandom.current().nextInt((AsteroidsControl.screenHeight / type.minWidth), (AsteroidsControl.screenHeight / type.maxWidth) + 1);
 
 			// Find the circles angle
 			double angle = (ThreadLocalRandom.current().nextDouble() * Math.PI * 1.0/2.0);
@@ -141,8 +141,8 @@ public class Asteroid extends Polygon
 				angle += originalAngle;
 			}
 			Point[] inSides = asteroidSides.toArray(new Point[asteroidSides.size()]);
-			double x = ThreadLocalRandom.current().nextDouble() * AsteroidsControl.SCREEN_WIDTH;
-			double y = ThreadLocalRandom.current().nextDouble() * AsteroidsControl.SCREEN_HEIGHT;
+			double x = ThreadLocalRandom.current().nextDouble() * AsteroidsControl.screenWidth;
+			double y = ThreadLocalRandom.current().nextDouble() * AsteroidsControl.screenHeight;
 			if(ThreadLocalRandom.current().nextDouble() > .5) { x = 100; }
 			else { y = 100; }
 			Point inPosition = new Point(x, y);

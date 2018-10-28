@@ -66,7 +66,7 @@ public class AsteroidsGame extends JPanel implements Animation
 		stars = Star.createDefaultStars();
 		this.setFocusable(true);
 		this.requestFocus();
-		shipPosition = new Point(AsteroidsControl.SCREEN_WIDTH / 2, AsteroidsControl.SCREEN_HEIGHT / 2);
+		shipPosition = new Point(AsteroidsControl.screenWidth / 2, AsteroidsControl.screenHeight / 2);
 		ship = new Ship(shipPosition, shipType);
 		this.addKeyListener(ship);
 		this.shipType = shipType;

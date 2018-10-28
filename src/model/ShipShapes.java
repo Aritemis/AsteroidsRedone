@@ -4,11 +4,20 @@
 
 package model;
 
+import java.util.ArrayList;
+
+import control.AsteroidsControl;
 import model_abstracts.Point;
 
 public class ShipShapes
 {
-	public static final Point[] shipShape1 = { new Point(0, 0), new Point(0, 30), new Point(40, 15) };
+	public static ArrayList<Point[]> shipShapes;
+	
+	public static void redoShipShapes()
+	{
+		shipShapes = new ArrayList<Point[]>();
+		shipShapes.add(new Point[]{ new Point(0, 0), new Point(0, (AsteroidsControl.screenHeight / 20)), new Point((AsteroidsControl.screenHeight / 15), (AsteroidsControl.screenHeight / 40)) });
+	}
 	
 	
 }

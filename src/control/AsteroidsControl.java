@@ -11,7 +11,9 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.ColorUIResource;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -20,6 +22,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.time.format.DateTimeFormatter;
 import model.HighScore;
+import model.ShipShapes;
 import model_enum.BulletType;
 import model_enum.ShipType;
 import view.AsteroidsFrame;
@@ -32,9 +35,10 @@ public class AsteroidsControl
 	public static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 	
 	public static final int updateTime = 15;
-	public static int repaintTime = 10;
-	public static int SCREEN_WIDTH = 800;
-	public static int SCREEN_HEIGHT = 600;
+	public static int repaintTime = 8;
+	public static int screenWidth;
+	public static int screenHeight;
+	public static boolean fullscreen;
 
 	public static boolean paused;
 	public static boolean limbo; //continue?
@@ -98,6 +102,10 @@ public class AsteroidsControl
 	
 	public void resetLocalData()
 	{
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		fullscreen = true;
+		screenWidth = (int) screenSize.getWidth();
+		screenHeight = (int) screenSize.getHeight();
 		credits = 0;
 		currentShip = ShipType.STANDARD;
 		currentBullet = BulletType.STANDARD;
@@ -173,6 +181,9 @@ public class AsteroidsControl
 	private AsteroidsSaveData createSaveData()
 	{
 		AsteroidsSaveData saveData = new AsteroidsSaveData();
+		saveData.fullscreen = fullscreen;
+		saveData.screenWidth = screenWidth;
+		saveData.screenHeight = screenHeight;
 		saveData.credits = credits;
 		saveData.currentShip = currentShip;
 		saveData.currentBullet = currentBullet;
@@ -184,6 +195,9 @@ public class AsteroidsControl
 	
 	private void updateLocalData(AsteroidsSaveData saveData)
 	{
+		fullscreen = saveData.fullscreen;
+		screenWidth = saveData.screenWidth;
+		screenHeight = saveData.screenHeight;
 		credits = saveData.credits;
 		currentShip = saveData.currentShip;
 		currentBullet = saveData.currentBullet;

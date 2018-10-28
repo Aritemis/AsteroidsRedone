@@ -54,21 +54,21 @@ public class Star extends Circle
 		center.y += speed * mod * Math.sin(radians);
 
 
-		if(center.x > AsteroidsControl.SCREEN_WIDTH) 
+		if(center.x > AsteroidsControl.screenWidth) 
 		{
-			center.x -= AsteroidsControl.SCREEN_WIDTH;
+			center.x -= AsteroidsControl.screenWidth;
 		} 
 		else if(center.x < 0)
 		{
-			center.x += AsteroidsControl.SCREEN_WIDTH;
+			center.x += AsteroidsControl.screenWidth;
 		}
-		if(center.y > AsteroidsControl.SCREEN_HEIGHT) 
+		if(center.y > AsteroidsControl.screenHeight) 
 		{
-			center.y -= AsteroidsControl.SCREEN_HEIGHT;
+			center.y -= AsteroidsControl.screenHeight;
 		} 
 		else if(center.y < 0) 
 		{
-			center.y += AsteroidsControl.SCREEN_HEIGHT;
+			center.y += AsteroidsControl.screenHeight;
 		}
 	}
 	
@@ -76,7 +76,7 @@ public class Star extends Circle
 	{
 		for(int i = 0; i < numberOfStars; ++i) 
 		{
-			Point center = new Point(ThreadLocalRandom.current().nextDouble() * AsteroidsControl.SCREEN_WIDTH, ThreadLocalRandom.current().nextDouble() * AsteroidsControl.SCREEN_HEIGHT);
+			Point center = new Point(ThreadLocalRandom.current().nextDouble() * AsteroidsControl.screenWidth, ThreadLocalRandom.current().nextDouble() * AsteroidsControl.screenHeight);
 			int radius = ThreadLocalRandom.current().nextInt(type.minRadius, type.maxRadius + 1);
 			stars.add(new Star(center, radius, type.speed));
 		}
@@ -86,9 +86,9 @@ public class Star extends Circle
 	public static ArrayList<Star> createDefaultStars()
 	{
 		ArrayList<Star> stars;
-		stars = Star.createStars(new ArrayList<Star>(), 100, StarType.FAST);
-		stars = Star.createStars(stars, 50, StarType.STANDARD);
-		stars = Star.createStars(stars, 25, StarType.SLOW);
+		stars = Star.createStars(new ArrayList<Star>(), (AsteroidsControl.screenHeight / 6), StarType.FAST);
+		stars = Star.createStars(stars, (AsteroidsControl.screenHeight / 12), StarType.STANDARD);
+		stars = Star.createStars(stars, (AsteroidsControl.screenHeight / 24), StarType.SLOW);
 		return stars;
 	}
 }

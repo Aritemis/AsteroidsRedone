@@ -4,25 +4,18 @@
 
 package model_enum;
 
-import model.ShipShapes;
-import model_abstracts.Point;
-
 public enum ShipType
 {
-	STANDARD(0, 1, 270, 30, 40);
+	STANDARD(1, 1, 270), ORIGINAL(0, 1, 270);
 	
 	public final int shipShape;
 	public final int speed;
 	public final double startingRotation;
-	public final int shipWidth;
-	public final int shipHeight;
 	
-	private ShipType(int shipShape, int speed, double startingRotation, int shipWidth, int shipHeight)
+	private ShipType(int shipShape, int speed, double startingRotation)
 	{
 		this.shipShape = shipShape;
 		this.speed = speed;
 		this.startingRotation = startingRotation;
-		this.shipWidth = shipWidth;
-		this.shipHeight = shipHeight;
 	}
 }

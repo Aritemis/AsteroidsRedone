@@ -82,6 +82,7 @@ public class AsteroidsFrame extends JFrame
 	
 	public void fullscreen()
 	{
+		//setExtendedState(Frame.MAXIMIZED_BOTH);
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		AsteroidsControl.fullscreen = true;
 		AsteroidsControl.screenWidth = (int) screenSize.getWidth();
@@ -93,6 +94,7 @@ public class AsteroidsFrame extends JFrame
 	{
 		setSize(AsteroidsControl.screenWidth, AsteroidsControl.screenHeight);
 		ShipShapes.redoShipShapes();
+		base.setScreenBoundaries();
 	}
 
 }

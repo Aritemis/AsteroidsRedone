@@ -4,14 +4,11 @@
 
 package model_objects;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-
 import javax.swing.JOptionPane;
-
 import control.AsteroidsControl;
 import model.ShipShapes;
 import model_abstracts.Point;
@@ -23,22 +20,24 @@ import view.ColorScheme;
 public class Ship extends Polygon implements KeyListener
 {
 	public static boolean forward;
-	public static boolean backward;
 	public static boolean turningRight;
 	public static boolean turningLeft;
 	private double speed;
+	private int rechargeTime;
+	private int cooldown;
 	private boolean shoot;
-	private boolean mustRelease;
 	private ArrayList<Bullet> shots;
-	private int speedMod;
 	private ShipType type;
+	private BulletType bullet;
 
-	public Ship(Point inPosition, ShipType type)
+	public Ship(Point inPosition, ShipType type, BulletType bullet)
 	{
 		super(ShipShapes.shipShapes.get(type.shipShape), inPosition.clone(), type.startingRotation);
-		this.speed = type.speed;
+		int speedMod = 4;
+		this.speed = type.speed * speedMod;
 		this.type = type;
-		speedMod = 2;
+		this.bullet = bullet;
+		rechargeTime = bullet.rechargeTime;
 		resetShip();
 	}
 
@@ -61,43 +60,28 @@ public class Ship extends Polygon implements KeyListener
 	
 	public void move() 
 	{	
+		int screenSizeMod = (AsteroidsControl.screenHeight / 500);
         if(forward) 
         {
-            position.x += speed * speedMod * (AsteroidsControl.screenHeight / 500) * Math.cos(Math.toRadians(rotation));
-            position.y += speed * speedMod * (AsteroidsControl.screenHeight / 500) * Math.sin(Math.toRadians(rotation));
-        }
-        if(backward) 
-        {
-            position.x -= speed * speedMod * (AsteroidsControl.screenHeight / 500) * Math.cos(Math.toRadians(rotation));
-            position.y -= speed * speedMod * (AsteroidsControl.screenHeight / 500) * Math.sin(Math.toRadians(rotation));
+            position.x += speed * screenSizeMod * Math.cos(Math.toRadians(rotation));
+            position.y += speed * screenSizeMod * Math.sin(Math.toRadians(rotation));
         }
         if(turningRight) 
         {
-            rotate((int)(speed * speedMod * (AsteroidsControl.screenHeight / 500)));
+            rotate((int)(speed * screenSizeMod));
         }
         if(turningLeft) 
         {
-            rotate((int)(speed * -speedMod * (AsteroidsControl.screenHeight / 500)));
-        }
-        if(shoot) 
-        {
-            if(!mustRelease)
-            {
-            	Bullet start = new Bullet(getPoints()[2].clone(), rotation, BulletType.STANDARD);
-            	start.getCenter().x -= 2;
-            	shots.add(start);
-            }
-            mustRelease = true;
-            shoot = false;
+            rotate((int)(-speed * screenSizeMod));
         }
 
-		if(position.x > AsteroidsControl.screenWidth) 
+		if(position.x > AsteroidsControl.screenBoundaryRight) 
 		{
-			position.x -= AsteroidsControl.screenWidth;
+			position.x -= AsteroidsControl.screenBoundaryRight;
 		} 
-		else if(position.x < 0)
+		else if(position.x < AsteroidsControl.screenBoundaryLeft)
 		{
-			position.x += AsteroidsControl.screenWidth;
+			position.x += AsteroidsControl.screenBoundaryRight;
 		}
 		if(position.y > AsteroidsControl.screenHeight) 
 		{
@@ -112,11 +96,10 @@ public class Ship extends Polygon implements KeyListener
 	public void resetShip()
 	{
 		forward = false;
-		backward = false;
 		turningRight = false;
 		turningLeft = false;
 		shoot = false;
-		mustRelease = false;
+		cooldown = 0;
 		shots = new ArrayList<Bullet>();
 		rotation = type.startingRotation;
 	}
@@ -136,6 +119,21 @@ public class Ship extends Polygon implements KeyListener
 		this.position = position.clone();
 	}
 	
+	public void recharge()
+	{
+		if(cooldown > 0)
+		{
+			cooldown--;
+		}
+		if(shoot && cooldown == 0)
+		{
+			Bullet newBullet = new Bullet(getPoints()[0].clone(), rotation, bullet);
+        	newBullet.getCenter().x -= 2;
+        	shots.add(newBullet);
+        	cooldown += rechargeTime;
+		}
+	}
+	
 	public void keyPressed(KeyEvent e) 
 	{
 		if(!AsteroidsControl.limbo && !AsteroidsControl.paused)
@@ -143,10 +141,6 @@ public class Ship extends Polygon implements KeyListener
 			if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) 
 			{
 				forward = true;
-			}
-			if(e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) 
-			{
-				backward = true;
 			}
 			if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) 
 			{
@@ -212,10 +206,6 @@ public class Ship extends Polygon implements KeyListener
 			{
 				forward = false;
 			}
-			if(e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) 
-			{
-				backward = false;
-			}
 			if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) 
 			{
 				turningLeft = false;
@@ -226,7 +216,7 @@ public class Ship extends Polygon implements KeyListener
 			}
 			if(e.getKeyCode() == KeyEvent.VK_SPACE) 
 			{
-				mustRelease = false;
+				shoot = false;
 			}
 		}
 	}

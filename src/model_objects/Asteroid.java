@@ -21,15 +21,20 @@ public class Asteroid extends Polygon
 	private double speed;
 	private int health;
 	private int score;
+	private boolean justRelocatedX;
+	private boolean justRelocatedY;
 	
 	public Asteroid(Point[] inShape, Point inPosition, double inRotation, AsteroidType type, int maxWidth, double speed, int health, int score) 
 	{
 		super(inShape, inPosition, inRotation);
+		int speedModifier = 3;
 		this.type = type;
 		this.maxWidth = maxWidth;
-		this.speed = speed;
+		this.speed = speed * speedModifier;
 		this.health = health;
 		this.score = score;
+		justRelocatedX = false;
+		justRelocatedY = false;
 	}
 
 	public void paint(Graphics brush) 
@@ -57,34 +62,60 @@ public class Asteroid extends Polygon
 	
 	public void moveInBounds()
 	{
-		int screenWidth = AsteroidsControl.screenWidth;
-		int screenHeight = AsteroidsControl.screenHeight;
-		if(position.x > screenWidth + maxWidth) 
+		int xMin = AsteroidsControl.screenBoundaryLeft;
+		int xMax = AsteroidsControl.screenBoundaryRight;
+		int yMax = AsteroidsControl.screenHeight;
+		if(position.x > xMax + maxWidth) 
 		{
-			position.x -= screenWidth + (maxWidth);
+			if(!justRelocatedX)
+			{
+				position.x -= (xMax + (maxWidth));
+				justRelocatedX = true;
+			}
 		} 
-		else if(position.x + maxWidth < 0)
+		else if(position.x + maxWidth < xMin)
 		{
-			position.x += screenWidth + (maxWidth);
+			if(!justRelocatedX)
+			{
+				position.x += xMax + (maxWidth);
+				justRelocatedX = true;
+			}
+		}
+		else 
+		{
+			justRelocatedX = false;
 		}
 		
-		if(position.y > screenHeight + maxWidth) 
+		if(position.y > yMax + maxWidth) 
 		{
-			position.y -= screenHeight + (maxWidth);
+			if(!justRelocatedY)
+			{
+				position.y -= yMax + (maxWidth);
+				justRelocatedY = true;
+			}
 		} 
 		else if(position.y + maxWidth < 0) 
 		{
-			position.y += screenHeight + (maxWidth);
+			if(!justRelocatedY)
+			{
+				position.y += yMax + (maxWidth);
+				justRelocatedY = true;
+			}
+		}
+		else
+		{
+			justRelocatedY = false;
 		}
 	}
 	
 	public boolean outOfBounds()
 	{
 		boolean result = false;
-		int screenWidth = AsteroidsControl.screenWidth;
-		int screenHeight = AsteroidsControl.screenHeight;
-		if((position.x > screenWidth + maxWidth) || (position.x + maxWidth < 0) || 
-				(position.y > screenHeight + maxWidth) || (position.y + maxWidth < 0))
+		int xMin = AsteroidsControl.screenBoundaryLeft;
+		int xMax = AsteroidsControl.screenBoundaryRight;
+		int yMax = AsteroidsControl.screenHeight;
+		if((position.x > xMax + maxWidth) || (position.x + maxWidth < xMin) || 
+				(position.y > yMax + maxWidth) || (position.y + maxWidth < 0))
 		{
 			result = true;
 		}
@@ -110,7 +141,7 @@ public class Asteroid extends Polygon
 	public static ArrayList<Asteroid> generateArcadeAsteroids(ArrayList<Asteroid> asteroids, int level, int baseScore)
 	{
 		int totalAsteroids = 5 + (level / 5);
-		int speedModifier = 1 + (level / 10) * (AsteroidsControl.screenWidth / 500);
+		int speedModifier = 1 + (level / 10) * (AsteroidsControl.screenHeight / 500);
 		int healthModifier = 1 + (level / 15);
 		asteroids = createAsteroids(asteroids, totalAsteroids, baseScore, speedModifier, healthModifier, AsteroidType.STANDARD);
 		return asteroids;
@@ -141,10 +172,12 @@ public class Asteroid extends Polygon
 				angle += originalAngle;
 			}
 			Point[] inSides = asteroidSides.toArray(new Point[asteroidSides.size()]);
-			double x = ThreadLocalRandom.current().nextDouble() * AsteroidsControl.screenWidth;
+			double x = (ThreadLocalRandom.current().nextDouble() * AsteroidsControl.screenHeight) + AsteroidsControl.screenBoundaryLeft;
 			double y = ThreadLocalRandom.current().nextDouble() * AsteroidsControl.screenHeight;
-			if(ThreadLocalRandom.current().nextDouble() > .5) { x = 100; }
-			else { y = 100; }
+			//y = x;
+
+			if(ThreadLocalRandom.current().nextDouble() > .5) { x = AsteroidsControl.screenBoundaryLeft; }
+			else { y = 0; }
 			Point inPosition = new Point(x, y);
 			double inRotation = ThreadLocalRandom.current().nextDouble() * 360;
 			double speed = type.baseSpeed * speedModifier;

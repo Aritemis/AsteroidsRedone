@@ -34,11 +34,14 @@ public class AsteroidsControl
 {
 	public static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 	
-	public static final int updateTime = 15;
-	public static int repaintTime = 8;
+	public static final int updateTime = 25;
+	public static int repaintTime = 25;
 	public static int screenWidth;
 	public static int screenHeight;
+	public static int screenBoundaryLeft;
+	public static int screenBoundaryRight;
 	public static boolean fullscreen;
+	public static boolean flashingColors;
 
 	public static boolean paused;
 	public static boolean limbo; //continue?
@@ -82,19 +85,10 @@ public class AsteroidsControl
 	
 	private void setUI()
 	{
-		try
-		{
-			UIManager.setLookAndFeel("view.AsteroidsLookAndFeel");
-		}
-		catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e)
-		{
-			e.printStackTrace();
-		}
 		UIManager.put("Panel.background", Color.black);
 		UIManager.put("OptionPane.messageBackground", Color.black);
 		UIManager.put("OptionPane.background", Color.black);
-	
-		//UIManager.put("OptionPane.messageForeground", Color.white);
+		UIManager.put("OptionPane.messageForeground", Color.white);
 		UIManager.put("Panel.foreground", Color.white);
 		UIManager.put("Button.background", Color.black);
 		UIManager.put("Button.foreground", Color.white);
@@ -104,8 +98,10 @@ public class AsteroidsControl
 	{
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		fullscreen = true;
+		flashingColors = false;
 		screenWidth = (int) screenSize.getWidth();
 		screenHeight = (int) screenSize.getHeight();
+		setScreenBoundaries();
 		credits = 0;
 		currentShip = ShipType.STANDARD;
 		currentBullet = BulletType.STANDARD;
@@ -184,6 +180,7 @@ public class AsteroidsControl
 		saveData.fullscreen = fullscreen;
 		saveData.screenWidth = screenWidth;
 		saveData.screenHeight = screenHeight;
+		saveData.flashingColors = flashingColors;
 		saveData.credits = credits;
 		saveData.currentShip = currentShip;
 		saveData.currentBullet = currentBullet;
@@ -198,12 +195,27 @@ public class AsteroidsControl
 		fullscreen = saveData.fullscreen;
 		screenWidth = saveData.screenWidth;
 		screenHeight = saveData.screenHeight;
+		flashingColors = saveData.flashingColors;
 		credits = saveData.credits;
 		currentShip = saveData.currentShip;
 		currentBullet = saveData.currentBullet;
 		shipUpgrades = saveData.shipUpgrades;
 		bulletUpgrades = saveData.bulletUpgrades;
 		highScores = saveData.highScores;
+	}
+	
+	public void setScreenBoundaries()
+	{
+		if(screenWidth > screenHeight)
+		{
+			screenBoundaryLeft = (screenWidth - screenHeight) / 2;
+			screenBoundaryRight = screenBoundaryLeft + screenHeight;
+		}
+		else
+		{
+			screenBoundaryLeft = 0;
+			screenBoundaryRight = screenWidth;
+		}
 	}
 	
 	public void changeState(ViewPanel state)

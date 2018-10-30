@@ -23,4 +23,5 @@ public class AsteroidsSaveData implements Serializable
 	boolean fullscreen;
 	int screenWidth;
 	int screenHeight;
+	boolean flashingColors;
 }

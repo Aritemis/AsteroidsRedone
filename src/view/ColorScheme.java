@@ -6,6 +6,8 @@ package view;
 
 import java.awt.Color;
 
+import control.AsteroidsControl;
+
 public class ColorScheme
 {
 	public static Color shipNLine1;
@@ -53,41 +55,43 @@ public class ColorScheme
 	
 	public static void normalColor()
 	{
-		switch(colorPosition)
+		shipLine = shipNLine1;
+		shipFill = shipNFill1;
+		bullet = bulletN1;
+		if(AsteroidsControl.flashingColors)
 		{
-			case 0:
-				shipLine = shipNLine1;
-				shipFill = shipNFill1;
-				bullet = bulletN1;
-				colorPosition++;
-				break;
-				
-			case 1: 
+			if(colorPosition > 4)
+			{
 				shipLine = shipNLine2;
 				shipFill = shipNFill2;
 				bullet = bulletN2;
-				colorPosition = 0;
-				break;
+				if(colorPosition > 7)
+				{
+					colorPosition = -1;
+				}
+			}
+			colorPosition++;
 		}
 	}
 	
 	public static void damagedColor()
 	{
-		switch(colorPosition2)
+		shipLine = shipDLine1;
+		shipFill = shipDFill1;
+		bullet = bulletD1;
+		if(AsteroidsControl.flashingColors)
 		{
-			case 0:
-				shipLine = shipDLine1;
-				shipFill = shipDFill1;
-				bullet = bulletD1;
-				colorPosition2++;
-				break;
-				
-			case 1: 
+			if(colorPosition2 > 4)
+			{
 				shipLine = shipDLine2;
 				shipFill = shipDFill2;
 				bullet = bulletD2;
-				colorPosition2 = 0;
-				break;
+				if(colorPosition2 > 7)
+				{
+					colorPosition2 = -1;
+				}
+			}
+			colorPosition2++;
 		}
 	}
 	

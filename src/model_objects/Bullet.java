@@ -24,8 +24,6 @@ public class Bullet extends Circle
 		this.rotation = rotation;
 		this.speed = type.speed;
 		this.type = type;
-		System.out.println("c " + center + " r " + radius);
-		System.out.println(AsteroidsControl.screenHeight + " " + type.size + " " + (AsteroidsControl.screenHeight / type.size));
 	}
 
 	public void paint(Graphics brush) 
@@ -37,14 +35,14 @@ public class Bullet extends Circle
 
 	public void move() 
 	{
-		center.x += speed * (AsteroidsControl.screenWidth / 200) * Math.cos(Math.toRadians(rotation));
-		center.y += speed * (AsteroidsControl.screenWidth / 200) * Math.sin(Math.toRadians(rotation));
+		center.x += speed * (AsteroidsControl.screenHeight / 200) * Math.cos(Math.toRadians(rotation));
+		center.y += speed * (AsteroidsControl.screenHeight / 200) * Math.sin(Math.toRadians(rotation));
 	}
 	
 	public boolean outOfBounds()
 	{
 		boolean result = false;
-		if(center.x > AsteroidsControl.screenWidth || center.x < 0 || center.y > AsteroidsControl.screenHeight || center.y < 0) 
+		if(center.x > AsteroidsControl.screenBoundaryRight || center.x < AsteroidsControl.screenBoundaryLeft || center.y > AsteroidsControl.screenHeight || center.y < 0) 
 		{
 			result = true;
 		}

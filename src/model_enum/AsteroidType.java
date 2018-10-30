@@ -8,7 +8,7 @@ import java.awt.Color;
 
 public enum AsteroidType
 {
-	STANDARD (15, 12, 1, 1, 1, Color.white, Color.black);
+	STANDARD (13, 10, 1, 1, 1, Color.white, Color.black);
 	
 	public final int minWidth;
 	public final int maxWidth;
@@ -27,7 +27,6 @@ public enum AsteroidType
 		this.baseHealth = baseHealth;
 		this.appearanceRate = appearanceRate;
 		this.sizeScoreModifier = (100 - maxWidth) / 25; 
-		//this.speedModifier = (int) (4 * speed);
 		this.lineColor = lineColor;
 		this.fillColor = fillColor;
 	}

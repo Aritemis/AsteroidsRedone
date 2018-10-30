@@ -66,8 +66,8 @@ public class AsteroidsGame extends JPanel implements Animation
 		stars = Star.createDefaultStars();
 		this.setFocusable(true);
 		this.requestFocus();
-		shipPosition = new Point(AsteroidsControl.screenWidth / 2, AsteroidsControl.screenHeight / 2);
-		ship = new Ship(shipPosition, shipType);
+		shipPosition = new Point((AsteroidsControl.screenHeight / 2) + AsteroidsControl.screenBoundaryLeft, AsteroidsControl.screenHeight / 2);
+		ship = new Ship(shipPosition, shipType, bullets);
 		this.addKeyListener(ship);
 		this.shipType = shipType;
 		this.bullets = bullets;
@@ -130,6 +130,7 @@ public class AsteroidsGame extends JPanel implements Animation
 		moveStars();
 		moveAsteroidsAndBullets();
 		ship.move();
+		ship.recharge();
 	}
 	
 	protected void updateCollide()

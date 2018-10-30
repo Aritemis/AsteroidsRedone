@@ -16,6 +16,7 @@ The finished version will have many features, including but not limited to..
         - Protect a thing? 
         - Standard clear all asteroids.
     - Endless Asteroids
+        - Increases in difficulty with higher levels.   (implemented)
     - Store (no real money options planned)
         - Different ships. (not available in arcade)
         - Different bullet types. (not available in arcade)

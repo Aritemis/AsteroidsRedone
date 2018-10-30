@@ -45,22 +45,18 @@ public class Star extends Circle
 		{
 			mod = -5;
 		}
-		if(Ship.backward) 
-		{
-            mod = 3;
-		}
 		
 		center.x += speed * mod * Math.cos(radians);
 		center.y += speed * mod * Math.sin(radians);
 
 
-		if(center.x > AsteroidsControl.screenWidth) 
+		if(center.x > AsteroidsControl.screenBoundaryRight) 
 		{
-			center.x -= AsteroidsControl.screenWidth;
+			center.x -= AsteroidsControl.screenBoundaryRight;
 		} 
-		else if(center.x < 0)
+		else if(center.x < AsteroidsControl.screenBoundaryLeft)
 		{
-			center.x += AsteroidsControl.screenWidth;
+			center.x += AsteroidsControl.screenBoundaryRight;
 		}
 		if(center.y > AsteroidsControl.screenHeight) 
 		{
@@ -76,7 +72,7 @@ public class Star extends Circle
 	{
 		for(int i = 0; i < numberOfStars; ++i) 
 		{
-			Point center = new Point(ThreadLocalRandom.current().nextDouble() * AsteroidsControl.screenWidth, ThreadLocalRandom.current().nextDouble() * AsteroidsControl.screenHeight);
+			Point center = new Point((ThreadLocalRandom.current().nextDouble() * (AsteroidsControl.screenBoundaryRight - AsteroidsControl.screenBoundaryLeft)) + AsteroidsControl.screenBoundaryLeft, ThreadLocalRandom.current().nextDouble() * AsteroidsControl.screenHeight);
 			int radius = ThreadLocalRandom.current().nextInt(type.minRadius, type.maxRadius + 1);
 			stars.add(new Star(center, radius, type.speed));
 		}

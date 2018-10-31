@@ -17,19 +17,21 @@ import model_enum.AsteroidType;
 public class Asteroid extends Polygon
 {
 	private AsteroidType type;
-	private int maxWidth;
+	private int radius;
+	private int offScreen;
 	private double speed;
 	private int health;
 	private int score;
 	private boolean justRelocatedX;
 	private boolean justRelocatedY;
 	
-	public Asteroid(Point[] inShape, Point inPosition, double inRotation, AsteroidType type, int maxWidth, double speed, int health, int score) 
+	public Asteroid(Point[] inShape, Point inPosition, double inRotation, AsteroidType type, int radius, double speed, int health, int score) 
 	{
 		super(inShape, inPosition, inRotation);
 		int speedModifier = 3;
 		this.type = type;
-		this.maxWidth = maxWidth;
+		this.radius = radius;
+		offScreen = 2 * radius;
 		this.speed = speed * speedModifier;
 		this.health = health;
 		this.score = score;
@@ -65,19 +67,19 @@ public class Asteroid extends Polygon
 		int xMin = AsteroidsControl.screenBoundaryLeft;
 		int xMax = AsteroidsControl.screenBoundaryRight;
 		int yMax = AsteroidsControl.screenHeight;
-		if(position.x > xMax + maxWidth) 
+		if(position.x > (xMax + offScreen)) 
 		{
 			if(!justRelocatedX)
 			{
-				position.x -= (xMax + (maxWidth));
+				position.x -= (yMax + (offScreen));
 				justRelocatedX = true;
 			}
 		} 
-		else if(position.x + maxWidth < xMin)
+		else if(position.x + offScreen < xMin)
 		{
 			if(!justRelocatedX)
 			{
-				position.x += xMax + (maxWidth);
+				position.x += yMax + (offScreen);
 				justRelocatedX = true;
 			}
 		}
@@ -86,19 +88,19 @@ public class Asteroid extends Polygon
 			justRelocatedX = false;
 		}
 		
-		if(position.y > yMax + maxWidth) 
+		if(position.y > yMax + offScreen) 
 		{
 			if(!justRelocatedY)
 			{
-				position.y -= yMax + (maxWidth);
+				position.y -= yMax + (offScreen);
 				justRelocatedY = true;
 			}
 		} 
-		else if(position.y + maxWidth < 0) 
+		else if(position.y + offScreen < 0) 
 		{
 			if(!justRelocatedY)
 			{
-				position.y += yMax + (maxWidth);
+				position.y += yMax + (offScreen);
 				justRelocatedY = true;
 			}
 		}
@@ -114,8 +116,8 @@ public class Asteroid extends Polygon
 		int xMin = AsteroidsControl.screenBoundaryLeft;
 		int xMax = AsteroidsControl.screenBoundaryRight;
 		int yMax = AsteroidsControl.screenHeight;
-		if((position.x > xMax + maxWidth) || (position.x + maxWidth < xMin) || 
-				(position.y > yMax + maxWidth) || (position.y + maxWidth < 0))
+		if((position.x > xMax + radius) || (position.x + radius < xMin) || 
+				(position.y > yMax + radius) || (position.y + radius < 0))
 		{
 			result = true;
 		}
@@ -183,7 +185,7 @@ public class Asteroid extends Polygon
 			double speed = type.baseSpeed * speedModifier;
 			int health = (int) (type.baseHealth * healthModifier);
 			int score = (int) (speed * health * 10);
-			asteroids.add(new Asteroid(inSides, inPosition, inRotation, type, type.maxWidth, speed, health, score));
+			asteroids.add(new Asteroid(inSides, inPosition, inRotation, type, radius, speed, health, score));
 		}
 		return asteroids;
 	}

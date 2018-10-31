@@ -32,6 +32,9 @@ import view_images.Images;
 
 public class AsteroidsControl
 {
+	boolean dropSaveDataForTesting = true;
+	
+	
 	public static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 	
 	public static final int updateTime = 25;
@@ -129,7 +132,7 @@ public class AsteroidsControl
 	
 	private void loadData()
 	{
-		if(dataFile.exists())
+		if(!dropSaveDataForTesting && dataFile.exists())
 		{
 			readData();
 		}

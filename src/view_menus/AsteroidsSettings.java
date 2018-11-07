@@ -5,10 +5,12 @@
 package view_menus;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import javax.swing.JPanel;
 import control.AsteroidsControl;
+import view.AsteroidsPanel;
 
-public class AsteroidsSettings extends JPanel
+public class AsteroidsSettings extends AsteroidsPanel
 {
 	private AsteroidsControl base;
 	
@@ -22,5 +24,12 @@ public class AsteroidsSettings extends JPanel
 	public void setUpLayout()
 	{
 		setBackground(Color.BLACK);
+	}
+	
+	@Override 
+	public void paint(Graphics brush)
+	{
+		super.paint(brush);
+		paintSides(brush);
 	}
 }

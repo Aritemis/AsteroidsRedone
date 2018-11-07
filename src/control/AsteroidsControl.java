@@ -32,7 +32,7 @@ import view_images.Images;
 
 public class AsteroidsControl
 {
-	boolean dropSaveDataForTesting = true;
+	boolean dropSaveDataForTesting = false;
 	
 	
 	public static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");

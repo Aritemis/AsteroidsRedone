@@ -133,6 +133,7 @@ public class AsteroidsArcade extends AsteroidsGame
 				}
 			}
 		}
+		paintSides(brush);
 	}
 
 }

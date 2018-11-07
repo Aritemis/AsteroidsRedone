@@ -25,11 +25,12 @@ import model_objects.Ship;
 import model_objects.Star;
 import view.Animation;
 import view.AsteroidsFrame;
+import view.AsteroidsPanel;
 import view.ViewPanel;
 import view_images.Images;
 
 @SuppressWarnings("serial")
-public class AsteroidsGame extends JPanel implements Animation
+public class AsteroidsGame extends AsteroidsPanel implements Animation
 {
 	protected AsteroidsControl base;
 	protected SpringLayout theLayout;

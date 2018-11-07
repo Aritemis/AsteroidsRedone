@@ -11,6 +11,7 @@ import control.AsteroidsControl;
 import model_enum.StarType;
 import model_objects.Star;
 import view.Animation;
+import view.AsteroidsPanel;
 import view.ViewPanel;
 
 import java.awt.GridBagLayout;
@@ -26,7 +27,7 @@ import java.awt.Graphics;
 import java.awt.Font;
 import javax.swing.JLabel;
 
-public class AsteroidsStartMenu extends JPanel implements Animation
+public class AsteroidsStartMenu extends AsteroidsPanel implements Animation
 {
 	private AsteroidsControl base;
 	private JButton arcadeModeButton;
@@ -180,5 +181,6 @@ public class AsteroidsStartMenu extends JPanel implements Animation
 	{
 		super.paint(g);
 		refreshStars(g);
+		paintSides(g);
 	}
 }
